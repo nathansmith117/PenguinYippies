@@ -11,6 +11,6 @@
 #ifndef GAME_COMMON_H
 #define GAME_COMMON_H
 
-typedef struct Game game;
+typedef struct Game Game;
 
 #endif
