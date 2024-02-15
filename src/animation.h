@@ -22,4 +22,9 @@ typedef struct Animation {
 Animation loadAnimationFromFile(const char* fileName);
 void freeAnimation(Animation* animation);
 
+// Set the frame and update the texture.
+void setAnimationFrame(Animation * animation, int frame);
+
+void runAnimation(Animation * animation);
+
 #endif
