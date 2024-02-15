@@ -2,37 +2,52 @@
 #include "game.h"
 #include <raylib.h>
 
-Animation loadAnimationFromFile(const char* fileName)
+AnimationAsset loadAnimationAssetFromFile(const char* fileName)
+{
+    AnimationAsset animationAsset;
+    animationAsset.image = LoadImageAnim(fileName, &animationAsset.frameCount);
+
+    return animationAsset;
+}
+
+void freeAnimationAsset(AnimationAsset* animationAsset)
+{
+    UnloadImage(animationAsset->image);
+}
+
+Animation createAnimation(AnimationAsset* asset, double delay)
 {
     Animation animation;
 
-    // Load image in.
-    animation.image = LoadImageAnim(fileName, &animation.frameCount);
-    animation.texture = LoadTextureFromImage(animation.image);
-
-    // Set options.
+    animation.frameCount = asset->frameCount;
     animation.currentFrame = 0;
-    animation.delay = ANIMATION_DEFAULT_DELAY;
-    animation.lastTime = -1.0; // -1.0 means there wasn't a last time.
+
+    animation.asset = asset;
+    animation.texture = LoadTextureFromImage(asset->image);
+
+    animation.width = asset->image.width;
+    animation.height = asset->image.height;
+
+    animation.delay = delay;
+    animation.lastTime = -1; // -1 for no last time.
 
     return animation;
 }
 
-void freeAnimation(Animation* animation)
+void closeAnimation(Animation* animation)
 {
-    UnloadImage(animation->image);
     UnloadTexture(animation->texture);
 }
 
-void setAnimationFrame(Animation * animation, int frame)
+void setAnimationFrame(Animation* animation, int frame)
 {
     animation->currentFrame = frame;
-    unsigned int nextFrameDataOffset = animation->image.width * animation->image.height * 4 * frame;
+    unsigned int nextFrameDataOffset = animation->width * animation->height * 4 * frame;
 
-    UpdateTexture(animation->texture, ((unsigned int*)animation->image.data) + nextFrameDataOffset);
+    UpdateTexture(animation->texture, ((unsigned int*)animation->asset->image.data) + nextFrameDataOffset);
 }
 
-void runAnimation(Animation * animation)
+void runAnimation(Animation* animation)
 {
     double currentTime = GetTime();
 

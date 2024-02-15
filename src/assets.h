@@ -14,7 +14,7 @@ extern const char animationAssetsNames[ANIMATION_ASSET_COUNT][ASSETS_NAME_MAX];
 
 typedef struct Assets {
     Texture textures[TEXTURE_ASSET_COUNT];
-    Animation animations[ANIMATION_ASSET_COUNT];
+    AnimationAsset animations[ANIMATION_ASSET_COUNT];
 } Assets;
 
 void initAssets(Assets* assets);

@@ -1,6 +1,7 @@
 #include "gameCommon.h"
 #include "mainMenu.h"
 #include "gameScreen.h"
+#include "assets.h"
 
 #ifndef GAME_H
 #define GAME_H
@@ -11,6 +12,9 @@ typedef enum ScreenId {
 } ScreenId;
 
 typedef struct Game {
+    Assets assets;
+
+    // Screens.
     ScreenId currentScreen;
     MainMenu mainMenu;
     GameScreen gameScreen;

@@ -29,7 +29,7 @@ void loadAnimations(Assets* assets)
     {
         char filePath[ASSETS_NAME_MAX];
         snprintf(filePath, ASSETS_NAME_MAX, "assets/%s", animationAssetsNames[i]);
-        assets->animations[i] = loadAnimationFromFile(filePath);
+        assets->animations[i] = loadAnimationAssetFromFile(filePath);
     }
 }
 
@@ -62,7 +62,7 @@ void closeAssets(Assets* assets)
     // Animations.
     for (int i = 0; i < ANIMATION_ASSET_COUNT; ++i)
     {
-        freeAnimation(&assets->animations[i]);
+        freeAnimationAsset(&assets->animations[i]);
     }
 
     TraceLog(LOG_INFO, "Assets closed");

@@ -4,6 +4,9 @@ void initGame(Game* game)
 {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Penguin Yippies!");
 
+    // Assets.
+    initAssets(&game->assets);
+
     // Screens.
     game->currentScreen = MAIN_MENU_SCREEN;
     initMainMenu(&game->mainMenu, game);
@@ -31,6 +34,7 @@ void updateGame(Game* game)
 
 void closeGame(Game* game)
 {
+    closeAssets(&game->assets);
     closeMainMenu(&game->mainMenu);
     closeGameScreen(&game->gameScreen);
 
