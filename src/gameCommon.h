@@ -5,8 +5,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 
 #ifndef GAME_COMMON_H
 #define GAME_COMMON_H

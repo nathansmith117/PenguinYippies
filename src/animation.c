@@ -29,7 +29,7 @@ Animation createAnimation(AnimationAsset* asset, double delay)
     animation.height = asset->image.height;
 
     animation.delay = delay;
-    animation.lastTime = -1; // -1 for no last time.
+    animation.lastTime = -1.0; // -1.0 for no last time.
 
     return animation;
 }
@@ -44,14 +44,14 @@ void setAnimationFrame(Animation* animation, int frame)
     animation->currentFrame = frame;
     unsigned int nextFrameDataOffset = animation->width * animation->height * 4 * frame;
 
-    UpdateTexture(animation->texture, ((unsigned int*)animation->asset->image.data) + nextFrameDataOffset);
+    UpdateTexture(animation->texture, ((unsigned char*)animation->asset->image.data) + nextFrameDataOffset);
 }
 
 void runAnimation(Animation* animation)
 {
     double currentTime = GetTime();
 
-    if (animation->lastTime == -1 || currentTime - animation->lastTime >= animation->delay)
+    if (animation->lastTime == -1.0 || currentTime - animation->lastTime >= animation->delay)
     {
         // Count the frames up.
         int newFrame = animation->currentFrame + 1;
@@ -66,4 +66,9 @@ void runAnimation(Animation* animation)
 
         animation->lastTime =  currentTime;
     }
+}
+
+void pauseAnimation(Animation* animation)
+{
+    animation->lastTime = -1.0;
 }

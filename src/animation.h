@@ -40,5 +40,6 @@ void closeAnimation(Animation* animation);
 void setAnimationFrame(Animation* animation, int frame);
 
 void runAnimation(Animation* animation);
+void pauseAnimation(Animation* animation);
 
 #endif
