@@ -31,6 +31,8 @@ Animation createAnimation(AnimationAsset* asset, double delay)
     animation.delay = delay;
     animation.lastTime = -1.0; // -1.0 for no last time.
 
+    animation.playing = false;
+
     return animation;
 }
 
@@ -49,6 +51,11 @@ void setAnimationFrame(Animation* animation, int frame)
 
 void runAnimation(Animation* animation)
 {
+    if (!animation->playing)
+    {
+        return;
+    }
+
     double currentTime = GetTime();
 
     if (animation->lastTime == -1.0 || currentTime - animation->lastTime >= animation->delay)
@@ -68,7 +75,19 @@ void runAnimation(Animation* animation)
     }
 }
 
+void playAnimation(Animation* animation)
+{
+    animation->playing = true;
+    animation->lastTime = -1.0;
+}
+
 void pauseAnimation(Animation* animation)
 {
+    animation->playing = false;
+}
+
+void toggleAnimation(Animation* animation)
+{
+    animation->playing = !animation->playing;
     animation->lastTime = -1.0;
 }

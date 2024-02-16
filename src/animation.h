@@ -28,6 +28,8 @@ typedef struct Animation {
     // Timing the frames.
     double delay;
     double lastTime;
+
+    bool playing;
 } Animation;
 
 AnimationAsset loadAnimationAssetFromFile(const char* fileName);
@@ -40,6 +42,8 @@ void closeAnimation(Animation* animation);
 void setAnimationFrame(Animation* animation, int frame);
 
 void runAnimation(Animation* animation);
+void playAnimation(Animation* animation);
 void pauseAnimation(Animation* animation);
+void toggleAnimation(Animation* animation);
 
 #endif
