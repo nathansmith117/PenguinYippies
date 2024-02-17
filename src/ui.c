@@ -18,6 +18,14 @@ TexturedButton createTexturedButton(Texture* texture, Rectangle rect, const char
 bool updateTexturedButton(TexturedButton* button)
 {
     // Draw the button.
+    DrawTexturePro(
+        *button->texture,
+        (Rectangle){0.0, 0.0, button->texture->width, button->texture->height},
+        button->rect,
+        Vector2Zero(),
+        0.0,
+        button->backgroundColor
+    );
 
     return button->isPressed;
 }
