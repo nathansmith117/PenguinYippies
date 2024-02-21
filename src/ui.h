@@ -1,6 +1,7 @@
 #include "gameCommon.h"
 
 #define UI_BUTTON_NAME_MAX 50
+#define UI_BUTTON_DEFAULT_FONT_SIZE 20
 
 #ifndef UI_H
 #define UI_H
@@ -10,9 +11,12 @@ typedef struct TexturedButton {
     Rectangle rect;
 
     char message[UI_BUTTON_NAME_MAX];
+    size_t messageLength;
 
     Color backgroundColor;
     Color foregroundColor;
+
+    int fontSize;
 
     bool isPressed;
 } TexturedButton;

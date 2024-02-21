@@ -7,6 +7,7 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
+    ClearBackground(RAYWHITE);
 }
 
 void closeGameScreen(GameScreen* gameScreen)

@@ -1,11 +1,13 @@
 #include "gameCommon.h"
 #include "animation.h"
+#include "ui.h"
 
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
 typedef struct MainMenu {
     Animation startButtonAnimation;
+    TexturedButton startButton;
 } MainMenu;
 
 void initMainMenu(MainMenu* mainMenu, Game* game);
