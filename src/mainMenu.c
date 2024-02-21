@@ -14,8 +14,8 @@ void initMainMenu(MainMenu* mainMenu, Game* game)
 
     Texture* startButtonTexture = &mainMenu->startButtonAnimation.texture;
 
-    int width = GetScreenWidth();
-    int height = GetScreenHeight();
+    int width = WINDOW_WIDTH;
+    int height = WINDOW_HEIGHT;
 
     mainMenu->startButton = createTexturedButton(
         startButtonTexture,

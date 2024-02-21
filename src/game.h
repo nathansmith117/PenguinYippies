@@ -18,6 +18,9 @@ typedef struct Game {
     ScreenId currentScreen;
     MainMenu mainMenu;
     GameScreen gameScreen;
+
+    // Wacky little render texture to make it look more like a unity game lmao.
+    RenderTexture screenTexture;
 } Game;
 
 void initGame(Game* game);

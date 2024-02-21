@@ -5,8 +5,8 @@
 void initGameScreen(GameScreen* gameScreen, Game* game)
 {
     Assets* assets = &game->assets;
-    int width = GetScreenWidth();
-    int height = GetScreenHeight();
+    int width = WINDOW_WIDTH;
+    int height = WINDOW_HEIGHT;
     int navigationButtonSize = 100;
     int navigationButtonX = width - navigationButtonSize - 5.0;
 
@@ -33,7 +33,7 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
     Texture* buttonTexture = &gameScreen->buttonPanelSharedAnimation.texture;
     int buttonWidth = width / 4;
-    int buttonHeight = buttonWidth / 2.0;
+    int buttonHeight = buttonWidth / 2;
     int buttonY = height - buttonHeight;
 
     gameScreen->upgradesButton = createTexturedButton(
