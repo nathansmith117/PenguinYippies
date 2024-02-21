@@ -30,7 +30,7 @@ Clicky createPenguinLolClicky(Game* game)
     clicky.animation = createAnimation(&game->assets.animations[PENGUIN_LOL_ANIMATION], ANIMATION_DEFAULT_DELAY);
     clicky.animation.repeat = false;
     clicky.texture = NULL;
-    clicky.rect = (Rectangle){0.0, 0.0, 128.0, 128.0};
+    clicky.rect = (Rectangle){0.0, 0.0, 256.0, 256.0};
 
     clicky.data = NULL;
     clicky.updateCB = updatePenguinLol;
