@@ -70,8 +70,8 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
     // Clickies.
     gameScreen->penguinLol = createPenguinLolClicky(game);
-    gameScreen->penguinLol.rect.x = WINDOW_WIDTH / 2.0 - 128.0;
-    gameScreen->penguinLol.rect.y = WINDOW_HEIGHT / 2.0 - 128.0;
+    gameScreen->penguinLol.rect.x = WINDOW_WIDTH / 2.0 - 256.0;
+    gameScreen->penguinLol.rect.y = WINDOW_HEIGHT / 2.0 - 256.0;
 }
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
