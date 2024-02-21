@@ -1,5 +1,6 @@
 #include "ui.h"
 #include "game.h"
+#include "util.h"
 
 TexturedButton createTexturedButton(Texture* texture, Rectangle rect, const char* message,
                                     Color backgroundColor, Color foregroundColor)
@@ -46,7 +47,7 @@ bool updateTexturedButton(TexturedButton* button)
     button->isPressed = false;
 
     // Outline and detect click stuff.
-    if (CheckCollisionPointRec(GetMousePosition(), button->rect))
+    if (CheckCollisionPointRec(getScaledMousePosition(), button->rect))
     {
         // Draw outline thingy.
         if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
