@@ -45,9 +45,9 @@ void closeAnimation(Animation* animation)
 void setAnimationFrame(Animation* animation, int frame)
 {
     animation->currentFrame = frame;
-    unsigned int nextFrameDataOffset = animation->width * animation->height * 4 * frame;
+    unsigned int frameOffset = animation->width * animation->height * 4 * frame;
 
-    UpdateTexture(animation->texture, ((unsigned char*)animation->asset->image.data) + nextFrameDataOffset);
+    UpdateTexture(animation->texture, ((unsigned char*)animation->asset->image.data) + frameOffset);
 }
 
 void runAnimation(Animation* animation)

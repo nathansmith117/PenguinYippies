@@ -1,7 +1,7 @@
 #include "clicky.h"
 #include "game.h"
 #include "assets.h"
-#include <raylib.h>
+#include "util.h"
 
 void updateClicky(Game* game, Clicky* clicky)
 {
@@ -12,7 +12,16 @@ void updatePenguinLol(Game* game, Clicky* clicky)
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        replayAnimation(&clicky->animation);
+        Rectangle clickRect = clicky->rect;
+        clickRect.width /= 2.0;
+        clickRect.height /= 2.0;
+        clickRect.x += clickRect.width / 2.0;
+        clickRect.y += clickRect.height / 2.0;
+
+        if (CheckCollisionPointRec(getScaledMousePosition(), clickRect))
+        {
+            replayAnimation(&clicky->animation);
+        }
     }
 
     // Run animation and update.
