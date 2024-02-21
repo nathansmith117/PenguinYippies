@@ -17,6 +17,8 @@ typedef struct Clicky {
     ClickyUpdateCB updateCB;
 } Clicky;
 
+void updateClicky(Game* game, Clicky* clicky);
+
 // A silly silly penguin lol.
 Clicky createPenguinLolClicky(Game* game);
 void freePenginLolClicky(Clicky clicky);

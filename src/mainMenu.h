@@ -1,6 +1,7 @@
 #include "gameCommon.h"
 #include "animation.h"
 #include "ui.h"
+#include "clicky.h"
 
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H

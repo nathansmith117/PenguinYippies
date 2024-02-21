@@ -28,6 +28,7 @@ Animation createAnimation(AnimationAsset* asset, double delay)
     animation.width = asset->image.width;
     animation.height = asset->image.height;
 
+    animation.repeat = true;
     animation.delay = delay;
     animation.lastTime = -1.0; // -1.0 for no last time.
 
@@ -65,7 +66,14 @@ void runAnimation(Animation* animation)
 
         if (newFrame >= animation->frameCount)
         {
-            newFrame = 0;
+            if (animation->repeat)
+            {
+                newFrame = 0;
+            }
+            else
+            {
+                newFrame = animation->frameCount - 1;
+            }
         }
 
         // Set the frame
@@ -79,6 +87,13 @@ void playAnimation(Animation* animation)
 {
     animation->playing = true;
     animation->lastTime = -1.0;
+}
+
+void replayAnimation(Animation* animation)
+{
+    animation->playing = true;
+    animation->lastTime = -1.0;
+    setAnimationFrame(animation, 0);
 }
 
 void pauseAnimation(Animation* animation)

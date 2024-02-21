@@ -25,7 +25,8 @@ typedef struct Animation {
     int width;
     int height;
 
-    // Timing the frames.
+    // Timing the frames and other stuff.
+    bool repeat;
     double delay;
     double lastTime;
 
@@ -42,6 +43,7 @@ void closeAnimation(Animation* animation);
 void setAnimationFrame(Animation* animation, int frame);
 
 void runAnimation(Animation* animation);
+void replayAnimation(Animation* animation);
 void playAnimation(Animation* animation);
 void pauseAnimation(Animation* animation);
 void toggleAnimation(Animation* animation);
