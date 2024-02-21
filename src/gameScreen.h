@@ -9,17 +9,11 @@ typedef struct GameScreen {
     TexturedButton toGameButton;
     TexturedButton toEmperorsEmporiumButton;
 
-    // The little button panel at the bottem.
-    Animation updateButtonAnimation;
-    TexturedButton updateButton;
-
-    Animation achievementsButtonAnimation;
+    // The little button panel at the bottom.
+    Animation buttonPanelSharedAnimation;
+    TexturedButton upgradesButton;
     TexturedButton achievementsButton;
-
-    Animation rebirthButtonAnimation;
     TexturedButton rebirthButton;
-
-    Animation statisticsButtonAnimation;
     TexturedButton statisticsButton;
 } GameScreen;
 

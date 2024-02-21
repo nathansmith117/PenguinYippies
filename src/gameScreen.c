@@ -1,8 +1,10 @@
 #include "gameScreen.h"
 #include "game.h"
+#include "assets.h"
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
 {
+    Assets* assets = &game->assets;
     int width = GetScreenWidth();
     int height = GetScreenHeight();
     int navigationButtonSize = 100;
@@ -10,7 +12,7 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
     // Navigation buttons.
     gameScreen->toGameButton = createTexturedButton(
-        &game->assets.textures[TO_GAME_ICON_TEXTURE],
+        &assets->textures[TO_GAME_ICON_TEXTURE],
         (Rectangle){navigationButtonX, 5.0, navigationButtonSize, navigationButtonSize},
         "",
         WHITE,
@@ -18,9 +20,50 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
     );
 
     gameScreen->toEmperorsEmporiumButton = createTexturedButton(
-        &game->assets.textures[TO_EMPERORS_EMPORIUM_ICON_TEXTURE],
+        &assets->textures[TO_EMPERORS_EMPORIUM_ICON_TEXTURE],
         (Rectangle){navigationButtonX, navigationButtonSize + 15.0, navigationButtonSize, navigationButtonSize},
         "",
+        WHITE,
+        BLACK
+    );
+
+    // Button pannel thingy.
+    gameScreen->buttonPanelSharedAnimation = createAnimation(&assets->animations[BUTTON_BOX_ANIMATION], ANIMATION_DEFAULT_DELAY);
+    playAnimation(&gameScreen->buttonPanelSharedAnimation);
+
+    Texture* buttonTexture = &gameScreen->buttonPanelSharedAnimation.texture;
+    int buttonWidth = width / 4;
+    int buttonHeight = 100;
+    int buttonY = height - buttonHeight;
+
+    gameScreen->upgradesButton = createTexturedButton(
+        buttonTexture,
+        (Rectangle){0.0, buttonY, buttonWidth, buttonHeight},
+        "Upgrades",
+        WHITE,
+        BLACK
+    );
+
+    gameScreen->achievementsButton = createTexturedButton(
+        buttonTexture,
+        (Rectangle){buttonWidth, buttonY, buttonWidth, buttonHeight},
+        "Achievements",
+        WHITE,
+        BLACK
+    );
+
+    gameScreen->rebirthButton = createTexturedButton(
+        buttonTexture,
+        (Rectangle){buttonWidth * 2.0, buttonY, buttonWidth, buttonHeight},
+        "Rebirth",
+        WHITE,
+        BLACK
+    );
+
+    gameScreen->statisticsButton = createTexturedButton(
+        buttonTexture,
+        (Rectangle){buttonWidth * 3.0, buttonY, buttonWidth, buttonHeight},
+        "Statistics",
         WHITE,
         BLACK
     );
@@ -43,9 +86,17 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     // Navigation buttons.
     updateTexturedButton(&gameScreen->toGameButton);
     updateTexturedButton(&gameScreen->toEmperorsEmporiumButton);
+
+    // Button panel.
+    runAnimation(&gameScreen->buttonPanelSharedAnimation);
+    updateTexturedButton(&gameScreen->upgradesButton);
+    updateTexturedButton(&gameScreen->achievementsButton);
+    updateTexturedButton(&gameScreen->rebirthButton);
+    updateTexturedButton(&gameScreen->statisticsButton);
 }
 
 void closeGameScreen(GameScreen* gameScreen)
 {
+    closeAnimation(&gameScreen->buttonPanelSharedAnimation);
 }
 
