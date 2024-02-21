@@ -33,7 +33,7 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
     Texture* buttonTexture = &gameScreen->buttonPanelSharedAnimation.texture;
     int buttonWidth = width / 4;
-    int buttonHeight = 100;
+    int buttonHeight = buttonWidth / 2.0;
     int buttonY = height - buttonHeight;
 
     gameScreen->upgradesButton = createTexturedButton(
