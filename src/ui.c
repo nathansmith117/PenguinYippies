@@ -31,28 +31,31 @@ bool updateTexturedButton(TexturedButton* button)
         button->backgroundColor
     );
 
-
-    // Draw outline thingy.
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    // Draw text centered in button if we have a message.
+    if (button->message[0] != '\0')
     {
-        DrawRectangleLinesEx(button->rect, 2, button->foregroundColor);
+        DrawText(
+            button->message,
+            button->rect.x + (button->rect.width / 2.0 - (button->messageLength * button->fontSize / 4.0)),
+            button->rect.y + (button->rect.height / 2.0 - button->fontSize / 2.0),
+            button->fontSize,
+            button->foregroundColor
+        );
     }
-
-    // Draw text centered in button.
-    DrawText(
-        button->message,
-        button->rect.x + (button->rect.width / 2.0 - (button->messageLength * button->fontSize / 4.0)),
-        button->rect.y + (button->rect.height / 2.0 - button->fontSize / 2.0),
-        button->fontSize,
-        button->foregroundColor
-    );
 
     button->isPressed = false;
 
-    // Check if the button is clicked.
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    // Outline and detect click stuff.
+    if (CheckCollisionPointRec(GetMousePosition(), button->rect))
     {
-        if (CheckCollisionPointRec(GetMousePosition(), button->rect))
+        // Draw outline thingy.
+        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        {
+            DrawRectangleLinesEx(button->rect, 2, button->foregroundColor);
+        }
+
+        // Is clicked.
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             button->isPressed = true;
         }
