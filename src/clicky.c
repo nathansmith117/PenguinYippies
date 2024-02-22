@@ -10,12 +10,24 @@ void updateClicky(Game* game, Clicky* clicky)
 
 void updatePenguinLol(Game* game, Clicky* clicky)
 {
+    // Do clicky clicky.
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         if (doesCollideWithAnimationData(clicky->rect, clicky->animation.asset->image.data,
             clicky->animation.width, clicky->animation.height, clicky->animation.currentFrame, getScaledMousePosition()))
         {
             replayAnimation(&clicky->animation);
+        }
+    }
+
+    // Drag around.
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    {
+        if (IsCursorOnScreen())
+        {
+            Vector2 mouseDelta = GetMouseDelta();
+            clicky->rect.x += mouseDelta.x;
+            clicky->rect.y += mouseDelta.y;
         }
     }
 
