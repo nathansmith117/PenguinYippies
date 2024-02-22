@@ -3,9 +3,27 @@
 #include "assets.h"
 #include "util.h"
 
-void updateClicky(Game* game, Clicky* clicky)
+void initClickies(Clickies* clickies)
 {
-    clicky->updateCB(game, clicky);
+    clickies->clickiesCount = 0;
+}
+
+void closeClickies(Clickies* clickies)
+{
+    for (int i = 0; i < clickies->clickiesCount; ++i)
+    {
+        // Yes, we shall free it using a callback it stores.
+        // Just wish I could free myself like this ):
+        clickies->clickies[i].freeCB(clickies->clickies[i]);
+    }
+}
+
+void updateClickies(Game* game, Clickies* clickies)
+{
+    for (int i = 0; i < clickies->clickiesCount; ++i)
+    {
+        clickies->clickies[i].updateCB(game, &clickies->clickies[i]);
+    }
 }
 
 void updatePenguinLol(Game* game, Clicky* clicky)
@@ -39,26 +57,26 @@ void updatePenguinLol(Game* game, Clicky* clicky)
                    clicky->rect, Vector2Zero(), 0.0, WHITE);
 }
 
+void freePenginLolClicky(Clicky clicky)
+{
+    closeAnimation(&clicky.animation);
+}
+
 Clicky createPenguinLolClicky(Game* game)
 {
     Clicky clicky;
 
     clicky.animation = createAnimation(&game->assets.animations[PENGUIN_LOL_ANIMATION], ANIMATION_DEFAULT_DELAY);
-    setAnimationFrame(&clicky.animation, 0);
+    setAnimationFrame(&clicky.animation, clicky.animation.frameCount - 1);
     clicky.animation.repeat = false;
     clicky.texture = NULL;
     clicky.rect = (Rectangle){0.0, 0.0, 512, 512};
 
-    clicky.colors = LoadImageColors(game->assets.animations[PENGUIN_LOL_ANIMATION].image);
-
     clicky.data = NULL;
     clicky.updateCB = updatePenguinLol;
+    clicky.freeCB = freePenginLolClicky;
+
+    clicky.wasClicked = false;
 
     return clicky;
-}
-
-void freePenginLolClicky(Clicky clicky)
-{
-    closeAnimation(&clicky.animation);
-    UnloadImageColors(clicky.colors);
 }

@@ -73,6 +73,7 @@ void runAnimation(Animation* animation)
             else
             {
                 newFrame = animation->frameCount - 1;
+                animation->playing = false;
             }
         }
 

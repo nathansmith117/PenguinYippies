@@ -16,8 +16,6 @@ typedef struct GameScreen {
     TexturedButton achievementsButton;
     TexturedButton rebirthButton;
     TexturedButton statisticsButton;
-
-    Clicky penguinLol;
 } GameScreen;
 
 void initGameScreen(GameScreen* gameScreen, Game* game);

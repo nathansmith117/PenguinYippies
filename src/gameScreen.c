@@ -67,11 +67,6 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         WHITE,
         BLACK
     );
-
-    // Clickies.
-    gameScreen->penguinLol = createPenguinLolClicky(game);
-    gameScreen->penguinLol.rect.x = WINDOW_WIDTH / 2.0 - 256.0;
-    gameScreen->penguinLol.rect.y = WINDOW_HEIGHT / 2.0 - 256.0;
 }
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
@@ -99,15 +94,11 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     updateTexturedButton(&gameScreen->rebirthButton);
     updateTexturedButton(&gameScreen->statisticsButton);
 
-    // update clickies.
-    updateClicky(game, &gameScreen->penguinLol);
-
     DrawFPS(0, 0);
 }
 
 void closeGameScreen(GameScreen* gameScreen)
 {
     closeAnimation(&gameScreen->buttonPanelSharedAnimation);
-    freePenginLolClicky(gameScreen->penguinLol);
 }
 
