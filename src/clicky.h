@@ -13,6 +13,9 @@ typedef struct Clicky {
     Texture* texture;
     Rectangle rect;
 
+    // Used for color collision stuff.
+    Color* colors;
+
     void* data;
     ClickyUpdateCB updateCB;
 } Clicky;

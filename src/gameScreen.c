@@ -101,6 +101,8 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
 
     // update clickies.
     updateClicky(game, &gameScreen->penguinLol);
+
+    DrawFPS(0, 0);
 }
 
 void closeGameScreen(GameScreen* gameScreen)

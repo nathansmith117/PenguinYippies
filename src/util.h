@@ -1,6 +1,5 @@
 #include "gameCommon.h"
 #include "animation.h"
-#include <raylib.h>
 
 #ifndef UTIL_H
 #define UTIL_H
@@ -9,6 +8,6 @@
 Vector2 getScaledMousePosition();
 
 // Check pixals and that fun stuff.
-bool doesCollideWithAnimation(Rectangle rect, Animation* animation, Vector2 point);
+bool doesCollideWithAnimationData(Rectangle rect, void* data, int width, int height, int frame, Vector2 point);
 
 #endif

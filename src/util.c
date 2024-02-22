@@ -10,24 +10,29 @@ Vector2 getScaledMousePosition()
     return mousePosition;
 }
 
-bool doesCollideWithAnimation(Rectangle rect, Animation* animation, Vector2 point)
+bool doesCollideWithAnimationData(Rectangle rect, void* data, int width, int height, int frame, Vector2 point)
 {
-    float xScale = (float)rect.width / animation->width;
-    float yScale = (float)rect.height / animation->height;
-
-    unsigned int frameOffset = animation->width * animation->height * 4 * animation->currentFrame;
-
-    // Check each pixal.
-    for (int row = 0; row < rect.height; ++row)
+    // Doesn't collide with rect.
+    if (!CheckCollisionPointRec(point, rect))
     {
-        for (int col = 0; col < rect.width; ++col)
-        {
-            int scaledRow = row * yScale;
-            int scaledCol = col * xScale;
+        return false;
+    }
 
-            int pixalPosition = frameOffset + (animation->width * scaledRow + scaledCol);
+    float xScale = (float)width / rect.width;
+    float yScale = (float)height / rect.height;
 
-        }
+    int row = (point.y - rect.y) * yScale;
+    int col = (point.x - rect.x) * xScale;
+
+    unsigned int frameOffset = width * height * frame;
+
+    // Position of the apha byte in the color.
+    unsigned int position = (frameOffset + (width * row + col)) * 4 + 3;
+
+    // Check apha at position.
+    if (*(((unsigned char*)data) + position) != 0x00)
+    {
+        return true;
     }
 
     return false;

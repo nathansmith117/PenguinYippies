@@ -12,13 +12,8 @@ void updatePenguinLol(Game* game, Clicky* clicky)
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        Rectangle clickRect = clicky->rect;
-        clickRect.width /= 2.0;
-        clickRect.height /= 2.0;
-        clickRect.x += clickRect.width / 2.0;
-        clickRect.y += clickRect.height / 2.0;
-
-        if (CheckCollisionPointRec(getScaledMousePosition(), clickRect))
+        if (doesCollideWithAnimationData(clicky->rect, clicky->animation.asset->image.data,
+            clicky->animation.width, clicky->animation.height, clicky->animation.currentFrame, getScaledMousePosition()))
         {
             replayAnimation(&clicky->animation);
         }
@@ -37,10 +32,12 @@ Clicky createPenguinLolClicky(Game* game)
     Clicky clicky;
 
     clicky.animation = createAnimation(&game->assets.animations[PENGUIN_LOL_ANIMATION], ANIMATION_DEFAULT_DELAY);
-    setAnimationFrame(&clicky.animation, clicky.animation.frameCount - 1);
+    setAnimationFrame(&clicky.animation, 0);
     clicky.animation.repeat = false;
     clicky.texture = NULL;
     clicky.rect = (Rectangle){0.0, 0.0, 512, 512};
+
+    clicky.colors = LoadImageColors(game->assets.animations[PENGUIN_LOL_ANIMATION].image);
 
     clicky.data = NULL;
     clicky.updateCB = updatePenguinLol;
@@ -51,4 +48,5 @@ Clicky createPenguinLolClicky(Game* game)
 void freePenginLolClicky(Clicky clicky)
 {
     closeAnimation(&clicky.animation);
+    UnloadImageColors(clicky.colors);
 }
