@@ -2,6 +2,7 @@
 #include "mainMenu.h"
 #include "gameScreen.h"
 #include "assets.h"
+#include "clicky.h"
 
 #ifndef GAME_H
 #define GAME_H
@@ -18,6 +19,8 @@ typedef struct Game {
     ScreenId currentScreen;
     MainMenu mainMenu;
     GameScreen gameScreen;
+
+    Clickies clickies;
 
     // Wacky little render texture to make it look more like a unity game lmao.
     RenderTexture screenTexture;

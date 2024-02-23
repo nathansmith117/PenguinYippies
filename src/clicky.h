@@ -31,6 +31,7 @@ typedef struct Clickies {
 
 void initClickies(Clickies* clickies);
 void closeClickies(Clickies* clickies);
+void addClickyToClickies(Clickies* clickies, Clicky clicky);
 void updateClickies(Game* game, Clickies* clickies);
 
 // A silly silly penguin lol.

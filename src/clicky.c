@@ -18,6 +18,17 @@ void closeClickies(Clickies* clickies)
     }
 }
 
+void addClickyToClickies(Clickies* clickies, Clicky clicky)
+{
+    if (clickies->clickiesCount >= MAX_CLICKIES)
+    {
+        return; // At max.
+    }
+
+    ++clickies->clickiesCount;
+    clickies->clickies[clickies->clickiesCount - 1] = clicky;
+}
+
 void updateClickies(Game* game, Clickies* clickies)
 {
     for (int i = 0; i < clickies->clickiesCount; ++i)
@@ -41,7 +52,8 @@ void updatePenguinLol(Game* game, Clicky* clicky)
     // Drag around.
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
     {
-        if (IsCursorOnScreen())
+        if (IsCursorOnScreen() && doesCollideWithAnimationData(clicky->rect, clicky->animation.asset->image.data,
+            clicky->animation.width, clicky->animation.height, clicky->animation.currentFrame, getScaledMousePosition()))
         {
             Vector2 mouseDelta = GetMouseDelta();
             clicky->rect.x += mouseDelta.x;

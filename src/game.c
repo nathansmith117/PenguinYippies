@@ -13,6 +13,17 @@ void initGame(Game* game)
     initMainMenu(&game->mainMenu, game);
     initGameScreen(&game->gameScreen, game);
 
+    // Clickies lol.
+    initClickies(&game->clickies);
+
+    // Test clickies.
+    Clicky testClicky = createPenguinLolClicky(game);
+    addClickyToClickies(&game->clickies, testClicky);
+
+    testClicky = createPenguinLolClicky(game);
+    testClicky.rect.x += 500;
+    addClickyToClickies(&game->clickies, testClicky);
+
     game->screenTexture = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
@@ -55,6 +66,7 @@ void closeGame(Game* game)
     closeAssets(&game->assets);
     closeMainMenu(&game->mainMenu);
     closeGameScreen(&game->gameScreen);
+    closeClickies(&game->clickies);
     UnloadRenderTexture(game->screenTexture);
 
     CloseWindow();

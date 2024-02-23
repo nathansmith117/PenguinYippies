@@ -94,6 +94,9 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     updateTexturedButton(&gameScreen->rebirthButton);
     updateTexturedButton(&gameScreen->statisticsButton);
 
+    // Clickies clickies.
+    updateClickies(game, &game->clickies);
+
     DrawFPS(0, 0);
 }
 
