@@ -97,7 +97,12 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     // Clickies clickies.
     updateClickies(game, &game->clickies);
 
-    DrawFPS(0, 0);
+    // Stones.
+    char stonesBuf[30];
+    snprintf(stonesBuf, sizeof(stonesBuf), "Stones: %d", game->stones);
+    DrawText(stonesBuf, 10, 10, 20, BLACK);
+
+    //DrawFPS(0, 0);
 }
 
 void closeGameScreen(GameScreen* gameScreen)

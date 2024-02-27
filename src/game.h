@@ -24,6 +24,8 @@ typedef struct Game {
 
     // Wacky little render texture to make it look more like a unity game lmao.
     RenderTexture screenTexture;
+
+    int stones;
 } Game;
 
 void initGame(Game* game);

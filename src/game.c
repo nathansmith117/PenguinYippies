@@ -25,6 +25,8 @@ void initGame(Game* game)
     addClickyToClickies(&game->clickies, testClicky);
 
     game->screenTexture = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    game->stones = 0;
 }
 
 void updateGame(Game* game)

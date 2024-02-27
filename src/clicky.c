@@ -39,14 +39,22 @@ void updateClickies(Game* game, Clickies* clickies)
 
 void updatePenguinLol(Game* game, Clicky* clicky)
 {
-    // Do clicky clicky.
+    // Mouse clicky.
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         if (doesCollideWithAnimationData(clicky->rect, clicky->animation.asset->image.data,
             clicky->animation.width, clicky->animation.height, clicky->animation.currentFrame, getScaledMousePosition()))
         {
-            replayAnimation(&clicky->animation);
+            clicky->wasClicked = true;
         }
+    }
+
+    // Was clicked.
+    if (clicky->wasClicked)
+    {
+        replayAnimation(&clicky->animation);
+        ++game->stones;
+        clicky->wasClicked = false;
     }
 
     // Drag around.
