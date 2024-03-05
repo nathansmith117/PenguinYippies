@@ -6,7 +6,14 @@
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
 
+typedef enum GamePlayPlace {
+    CLICKY_DESKTOP_PLACE,
+    SHOP_PLACE
+} GamePlayPlace;
+
 typedef struct GameScreen {
+    GamePlayPlace place;
+
     TexturedButton toGameButton;
     TexturedButton toEmperorsEmporiumButton;
 

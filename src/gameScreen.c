@@ -4,6 +4,8 @@
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
 {
+    gameScreen->place = CLICKY_DESKTOP_PLACE;
+
     Assets* assets = &game->assets;
     int width = WINDOW_WIDTH;
     int height = WINDOW_HEIGHT;
@@ -69,6 +71,11 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
     );
 }
 
+void updateGameScreenShop(GameScreen* gameScreen, Game* game)
+{
+
+}
+
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
      // Draw background.
@@ -84,8 +91,14 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     );
 
     // Navigation buttons.
-    updateTexturedButton(&gameScreen->toGameButton);
-    updateTexturedButton(&gameScreen->toEmperorsEmporiumButton);
+    if (updateTexturedButton(&gameScreen->toGameButton))
+    {
+        gameScreen->place = CLICKY_DESKTOP_PLACE;
+    }
+    if (updateTexturedButton(&gameScreen->toEmperorsEmporiumButton))
+    {
+        gameScreen->place = SHOP_PLACE;
+    }
 
     // Button panel.
     runAnimation(&gameScreen->buttonPanelSharedAnimation);
@@ -94,8 +107,19 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     updateTexturedButton(&gameScreen->rebirthButton);
     updateTexturedButton(&gameScreen->statisticsButton);
 
-    // Clickies clickies.
-    updateClickies(game, &game->clickies);
+    // assssssss hehehe
+    switch (gameScreen->place)
+    {
+        case CLICKY_DESKTOP_PLACE:
+             // Clickies clickies.
+            updateClickies(game, &game->clickies);
+            break;
+        case SHOP_PLACE:
+            updateGameScreenShop(gameScreen, game);
+            break;
+        default:
+            break;
+    }
 
     // Stones.
     char stonesBuf[30];
