@@ -1,6 +1,7 @@
 #include "gameScreen.h"
 #include "game.h"
 #include "assets.h"
+#include <raylib.h>
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
 {
@@ -73,7 +74,16 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
 
 void updateGameScreenShop(GameScreen* gameScreen, Game* game)
 {
+    Texture shopBoard = game->assets.textures[SHOP_BOARD_TEXTURE];
 
+    DrawTexturePro(
+        shopBoard,
+        (Rectangle){0.0, 0.0, shopBoard.width, shopBoard.height},
+        (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
+        (Vector2){0.0, 0.0},
+        0.0,
+        WHITE
+    );
 }
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
