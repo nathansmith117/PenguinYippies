@@ -72,14 +72,45 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
     );
 }
 
+void updateGameScreenButtonPanel(GameScreen* gameScreen, Game* game)
+{
+    // Button panel.
+    runAnimation(&gameScreen->buttonPanelSharedAnimation);
+    updateTexturedButton(&gameScreen->upgradesButton);
+    updateTexturedButton(&gameScreen->achievementsButton);
+    updateTexturedButton(&gameScreen->rebirthButton);
+    updateTexturedButton(&gameScreen->statisticsButton);
+}
+
+void updateGameScreenClickyDesktop(GameScreen* gameScreen, Game* game)
+{
+    updateGameScreenButtonPanel(gameScreen, game);
+
+    // Clickies clickies.
+    updateClickies(game, &game->clickies);
+}
+
 void updateGameScreenShop(GameScreen* gameScreen, Game* game)
 {
     Texture shopBoard = game->assets.textures[SHOP_BOARD_TEXTURE];
 
+    // Board thingy.
     DrawTexturePro(
         shopBoard,
         (Rectangle){0.0, 0.0, shopBoard.width, shopBoard.height},
-        (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
+        (Rectangle){0.0, 0.0, WINDOW_WIDTH, WINDOW_HEIGHT},
+        (Vector2){0.0, 0.0},
+        0.0,
+        WHITE
+    );
+
+    // Penguin thingy thing thing
+    Texture yoyoyo = game->assets.textures[EMPEROR_SHOP_UI_TEXTURE];
+
+     DrawTexturePro(
+        yoyoyo,
+        (Rectangle){0.0, 0.0, yoyoyo.width, yoyoyo.height},
+        (Rectangle){0.0, 0.0, WINDOW_WIDTH, WINDOW_HEIGHT},
         (Vector2){0.0, 0.0},
         0.0,
         WHITE
@@ -94,7 +125,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     DrawTexturePro(
         background,
         (Rectangle){0.0, 0.0, background.width, background.height},
-        (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
+        (Rectangle){0.0, 0.0, WINDOW_WIDTH, WINDOW_HEIGHT},
         (Vector2){0.0, 0.0},
         0.0,
         WHITE
@@ -110,19 +141,11 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
         gameScreen->place = SHOP_PLACE;
     }
 
-    // Button panel.
-    runAnimation(&gameScreen->buttonPanelSharedAnimation);
-    updateTexturedButton(&gameScreen->upgradesButton);
-    updateTexturedButton(&gameScreen->achievementsButton);
-    updateTexturedButton(&gameScreen->rebirthButton);
-    updateTexturedButton(&gameScreen->statisticsButton);
-
     // assssssss hehehe
     switch (gameScreen->place)
     {
         case CLICKY_DESKTOP_PLACE:
-             // Clickies clickies.
-            updateClickies(game, &game->clickies);
+            updateGameScreenClickyDesktop(gameScreen, game);
             break;
         case SHOP_PLACE:
             updateGameScreenShop(gameScreen, game);
