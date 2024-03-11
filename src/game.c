@@ -20,10 +20,6 @@ void initGame(Game* game)
     Clicky testClicky = createPenguinLolClicky(game);
     addClickyToClickies(&game->clickies, testClicky);
 
-    testClicky = createPenguinLolClicky(game);
-    testClicky.rect.x += 500;
-    addClickyToClickies(&game->clickies, testClicky);
-
     game->screenTexture = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     game->stones = 0;

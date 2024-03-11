@@ -2,12 +2,21 @@
 #include "game.h"
 #include "assets.h"
 #include "util.h"
-#include <raylib.h>
+#include "clicky.h"
 
 // Callbacks.
 void createPenguinLolCB(ShopEntry* entry, Game* game)
 {
-    puts("hihihi");
+    SetRandomSeed(clock());
+
+    int randomX = GetRandomValue(200, WINDOW_WIDTH - 200);
+    int randomY = GetRandomValue(200, WINDOW_HEIGHT - 200);
+
+    Clicky lol = createPenguinLolClicky(game);
+    lol.rect.x = randomX;
+    lol.rect.y = randomY;
+
+    addClickyToClickies(&game->clickies, lol);
 }
 
 void initShop(Shop* shop, Game* game)
@@ -17,6 +26,17 @@ void initShop(Shop* shop, Game* game)
     // Entries.
     shop->penguinLol = LoadTextureFromImage(assets->animations[PENGUIN_LOL_ANIMATION].image);
     shop->entries[0] = (ShopEntry){&shop->penguinLol, 10, createPenguinLolCB};
+}
+
+void buyThingFromShop(Shop* shop, int id, Game* game)
+{
+    int cost = shop->entries[id].cost;
+
+    if (game->stones >= cost)
+    {
+        shop->entries[id].callback(&shop->entries[id], game);
+        game->stones -= cost;
+    }
 }
 
 void updateShop(Shop* shop, Game* game)
@@ -76,7 +96,7 @@ void updateShop(Shop* shop, Game* game)
         {
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
             {
-                shop->entries[i].callback(&shop->entries[i], game);
+                buyThingFromShop(shop, i, game);
             }
             else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
             {
