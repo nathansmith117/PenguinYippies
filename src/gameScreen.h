@@ -2,6 +2,7 @@
 #include "animation.h"
 #include "ui.h"
 #include "clicky.h"
+#include "shop.h"
 
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
@@ -23,6 +24,8 @@ typedef struct GameScreen {
     TexturedButton achievementsButton;
     TexturedButton rebirthButton;
     TexturedButton statisticsButton;
+
+    Shop shop;
 } GameScreen;
 
 void initGameScreen(GameScreen* gameScreen, Game* game);

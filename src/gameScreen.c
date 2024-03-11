@@ -70,6 +70,8 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         WHITE,
         BLACK
     );
+
+    initShop(&gameScreen->shop, game);
 }
 
 void updateGameScreenButtonPanel(GameScreen* gameScreen, Game* game)
@@ -88,33 +90,6 @@ void updateGameScreenClickyDesktop(GameScreen* gameScreen, Game* game)
 
     // Clickies clickies.
     updateClickies(game, &game->clickies);
-}
-
-void updateGameScreenShop(GameScreen* gameScreen, Game* game)
-{
-    Texture shopBoard = game->assets.textures[SHOP_BOARD_TEXTURE];
-
-    // Board thingy.
-    DrawTexturePro(
-        shopBoard,
-        (Rectangle){0.0, 0.0, shopBoard.width, shopBoard.height},
-        (Rectangle){0.0, 0.0, WINDOW_WIDTH, WINDOW_HEIGHT},
-        (Vector2){0.0, 0.0},
-        0.0,
-        WHITE
-    );
-
-    // Penguin thingy thing thing
-    Texture yoyoyo = game->assets.textures[EMPEROR_SHOP_UI_TEXTURE];
-
-     DrawTexturePro(
-        yoyoyo,
-        (Rectangle){0.0, 0.0, yoyoyo.width, yoyoyo.height},
-        (Rectangle){0.0, 0.0, WINDOW_WIDTH, WINDOW_HEIGHT},
-        (Vector2){0.0, 0.0},
-        0.0,
-        WHITE
-    );
 }
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
@@ -148,7 +123,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
             updateGameScreenClickyDesktop(gameScreen, game);
             break;
         case SHOP_PLACE:
-            updateGameScreenShop(gameScreen, game);
+            updateShop(&gameScreen->shop, game);
             break;
         default:
             break;
@@ -165,5 +140,6 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
 void closeGameScreen(GameScreen* gameScreen)
 {
     closeAnimation(&gameScreen->buttonPanelSharedAnimation);
+    closeShop(&gameScreen->shop);
 }
 
