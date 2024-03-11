@@ -7,7 +7,9 @@
 #ifndef SHOP_H
 #define SHOP_H
 
-typedef void (*ShopyEntryCB)(Game* game);
+typedef struct ShopEntry ShopEntry;
+
+typedef void (*ShopyEntryCB)(ShopEntry* entry, Game* game);
 
 typedef struct ShopEntry {
     Texture* texture;

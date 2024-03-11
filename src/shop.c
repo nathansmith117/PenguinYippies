@@ -1,11 +1,13 @@
 #include "shop.h"
 #include "game.h"
 #include "assets.h"
+#include "util.h"
+#include <raylib.h>
 
 // Callbacks.
-void createPenguinLolCB(Game* game)
+void createPenguinLolCB(ShopEntry* entry, Game* game)
 {
-
+    puts("hihihi");
 }
 
 void initShop(Shop* shop, Game* game)
@@ -67,7 +69,22 @@ void updateShop(Shop* shop, Game* game)
             WHITE
         );
 
-        DrawRectangleLinesEx(rects[i], 2, BLACK);
+        Color outlineColor = BLACK;
+
+        // Test collision.
+        if (CheckCollisionPointRec(getScaledMousePosition(), rects[i]))
+        {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                shop->entries[i].callback(&shop->entries[i], game);
+            }
+            else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+            {
+                outlineColor = BLUE;
+            }
+        }
+
+        DrawRectangleLinesEx(rects[i], 2, outlineColor);
     }
 }
 
