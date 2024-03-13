@@ -97,6 +97,7 @@ void updateShop(Shop* shop, Game* game)
     {
         Texture entryTexture = *shop->entries[i].texture;
 
+        // Draw the entry texture.
         DrawTexturePro(
             entryTexture,
             (Rectangle){0.0, 0.0, entryTexture.width, entryTexture.height},
@@ -121,7 +122,22 @@ void updateShop(Shop* shop, Game* game)
             }
         }
 
+        // Draw outline.
         DrawRectangleLinesEx(rects[i], 2, outlineColor);
+
+        // Draw cost.
+        char costBuf[20];
+        int cost = shop->entries[i].cost;
+        snprintf(costBuf, sizeof(costBuf), "%d", cost);
+
+        Color costColor = BLACK;
+
+        if (cost > game->stones)
+        {
+            costColor = RED;
+        }
+
+        DrawText(costBuf, rects[i].x + rects[i].width + 2, rects[i].y + 10, 50, costColor);
     }
 }
 
