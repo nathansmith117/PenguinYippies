@@ -12,7 +12,8 @@ const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
 
 const char animationAssetsNames[ANIMATION_ASSET_COUNT][ASSETS_NAME_MAX] = {
     "buttonBox.gif",
-    "penguinLol.gif"
+    "penguinLol.gif",
+    "clicker.gif"
 };
 
 void loadTextures(Assets* assets)

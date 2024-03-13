@@ -1,8 +1,9 @@
 #include "gameCommon.h"
+#include <raylib.h>
 
 // The fullname is waaayyy toooo looonnnng for lazy lazy me
 
-#define SHOP_ENTRY_COUNT 1
+#define SHOP_ENTRY_COUNT 2
 
 #ifndef SHOP_H
 #define SHOP_H
@@ -22,6 +23,7 @@ typedef struct Shop {
 
     // Some silly textures.
     Texture penguinLol;
+    Texture clicker;
 } Shop;
 
 void initShop(Shop* shop, Game* game);

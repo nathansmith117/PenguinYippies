@@ -3,6 +3,7 @@
 #include "assets.h"
 #include "util.h"
 #include "clicky.h"
+#include <raylib.h>
 
 // Callbacks.
 void createPenguinLolCB(ShopEntry* entry, Game* game)
@@ -19,6 +20,18 @@ void createPenguinLolCB(ShopEntry* entry, Game* game)
     addClickyToClickies(&game->clickies, lol);
 }
 
+void createClicker(ShopEntry* entry, Game* game)
+{
+    SetRandomSeed(clock());
+
+    int randomX = GetRandomValue(200, WINDOW_WIDTH - 200);
+    int randomY = GetRandomValue(200, WINDOW_HEIGHT - 200);
+
+    Clicky clicker = createClickerClicky(game);
+
+    addClickyToClickies(&game->clickies, clicker);
+}
+
 void initShop(Shop* shop, Game* game)
 {
     Assets* assets = &game->assets;
@@ -26,6 +39,9 @@ void initShop(Shop* shop, Game* game)
     // Entries.
     shop->penguinLol = LoadTextureFromImage(assets->animations[PENGUIN_LOL_ANIMATION].image);
     shop->entries[0] = (ShopEntry){&shop->penguinLol, 10, createPenguinLolCB};
+
+    shop->clicker = LoadTextureFromImage(assets->animations[CLICKER_ANIMATION].image);
+    shop->entries[1] = (ShopEntry){&shop->clicker, 20, createClicker};
 }
 
 void buyThingFromShop(Shop* shop, int id, Game* game)
@@ -72,7 +88,8 @@ void updateShop(Shop* shop, Game* game)
     double height = 100.0;
 
     Rectangle rects[SHOP_ENTRY_COUNT] = {
-        (Rectangle){startX, startY, width, height}
+        (Rectangle){startX, startY, width, height},
+        (Rectangle){startX, startY + height, width, height}
     };
 
     // Entries.
@@ -111,4 +128,5 @@ void updateShop(Shop* shop, Game* game)
 void closeShop(Shop* shop)
 {
     UnloadTexture(shop->penguinLol);
+    UnloadTexture(shop->clicker);
 }

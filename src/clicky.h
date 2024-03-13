@@ -3,6 +3,8 @@
 
 #define MAX_CLICKIES 256
 
+#define CLICKER_DEFAULT_DELAY 0.5
+
 #ifndef CLICKY_H
 #define CLICKY_H
 
@@ -24,6 +26,12 @@ typedef struct Clicky {
     bool wasClicked;
 } Clicky;
 
+// ittle thingy used by the clicker
+typedef struct Clicker {
+    double timeLastClicked;
+    double delay;
+} Clicker;
+
 typedef struct Clickies {
     Clicky clickies[MAX_CLICKIES];
     size_t clickiesCount;
@@ -36,6 +44,9 @@ void updateClickies(Game* game, Clickies* clickies);
 
 // A silly silly penguin lol.
 Clicky createPenguinLolClicky(Game* game);
+
+// Create a clicker.
+Clicky createClickerClicky(Game* game);
 
 #endif
 

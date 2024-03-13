@@ -4,7 +4,7 @@
 #define ASSETS_NAME_MAX 100
 
 #define TEXTURE_ASSET_COUNT 6
-#define ANIMATION_ASSET_COUNT 2
+#define ANIMATION_ASSET_COUNT 3
 
 #ifndef ASSETS_H
 #define ASSETS_H
@@ -26,7 +26,8 @@ enum
 enum
 {
     BUTTON_BOX_ANIMATION,
-    PENGUIN_LOL_ANIMATION
+    PENGUIN_LOL_ANIMATION,
+    CLICKER_ANIMATION
 };
 
 typedef struct Assets {
