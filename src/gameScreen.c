@@ -30,64 +30,11 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         BLACK
     );
 
-    // Button pannel thingy.
-    gameScreen->buttonPanelSharedAnimation = createAnimation(&assets->animations[BUTTON_BOX_ANIMATION], ANIMATION_DEFAULT_DELAY);
-    playAnimation(&gameScreen->buttonPanelSharedAnimation);
-
-    Texture* buttonTexture = &gameScreen->buttonPanelSharedAnimation.texture;
-    int buttonWidth = width / 4;
-    int buttonHeight = buttonWidth / 2;
-    int buttonY = height - buttonHeight;
-
-    gameScreen->upgradesButton = createTexturedButton(
-        buttonTexture,
-        (Rectangle){0.0, buttonY, buttonWidth, buttonHeight},
-        "Upgrades",
-        WHITE,
-        BLACK
-    );
-
-    gameScreen->achievementsButton = createTexturedButton(
-        buttonTexture,
-        (Rectangle){buttonWidth, buttonY, buttonWidth, buttonHeight},
-        "Achievements",
-        WHITE,
-        BLACK
-    );
-
-    gameScreen->rebirthButton = createTexturedButton(
-        buttonTexture,
-        (Rectangle){buttonWidth * 2.0, buttonY, buttonWidth, buttonHeight},
-        "Rebirth",
-        WHITE,
-        BLACK
-    );
-
-    gameScreen->statisticsButton = createTexturedButton(
-        buttonTexture,
-        (Rectangle){buttonWidth * 3.0, buttonY, buttonWidth, buttonHeight},
-        "Statistics",
-        WHITE,
-        BLACK
-    );
-
     initShop(&gameScreen->shop, game);
-}
-
-void updateGameScreenButtonPanel(GameScreen* gameScreen, Game* game)
-{
-    // Button panel.
-    runAnimation(&gameScreen->buttonPanelSharedAnimation);
-    updateTexturedButton(&gameScreen->upgradesButton);
-    updateTexturedButton(&gameScreen->achievementsButton);
-    updateTexturedButton(&gameScreen->rebirthButton);
-    updateTexturedButton(&gameScreen->statisticsButton);
 }
 
 void updateGameScreenClickyDesktop(GameScreen* gameScreen, Game* game)
 {
-    updateGameScreenButtonPanel(gameScreen, game);
-
     // Clickies clickies.
     updateClickies(game, &game->clickies);
 }
@@ -150,7 +97,6 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
 
 void closeGameScreen(GameScreen* gameScreen)
 {
-    closeAnimation(&gameScreen->buttonPanelSharedAnimation);
     closeShop(&gameScreen->shop);
 }
 
