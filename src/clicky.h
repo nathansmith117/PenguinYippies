@@ -12,8 +12,15 @@ typedef struct Clicky Clicky;
 typedef void (*ClickyUpdateCB)(Game* game, Clicky* clicky);
 typedef void (*ClickyFreeCB)(Clicky clicky);
 
+typedef enum ClickyType {
+    PENGUIN_LOL_TYPE,
+    CLICKER_TYPE
+} ClickyType;
+
 // A fixable clicky clicky. There shall be many clicky clickies.
 typedef struct Clicky {
+    ClickyType type;
+
     Animation animation;
     Texture* texture;
     Rectangle rect;

@@ -38,10 +38,10 @@ void initShop(Shop* shop, Game* game)
 
     // Entries.
     shop->penguinLol = LoadTextureFromImage(assets->animations[PENGUIN_LOL_ANIMATION].image);
-    shop->entries[0] = (ShopEntry){&shop->penguinLol, 10, createPenguinLolCB};
+    shop->entries[0] = (ShopEntry){&shop->penguinLol, 50, createPenguinLolCB};
 
     shop->clicker = LoadTextureFromImage(assets->animations[CLICKER_ANIMATION].image);
-    shop->entries[1] = (ShopEntry){&shop->clicker, 20, createClicker};
+    shop->entries[1] = (ShopEntry){&shop->clicker, 70, createClicker};
 }
 
 void buyThingFromShop(Shop* shop, int id, Game* game)

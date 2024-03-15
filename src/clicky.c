@@ -2,7 +2,9 @@
 #include "game.h"
 #include "assets.h"
 #include "util.h"
+#include <math.h>
 #include <raylib.h>
+#include <raymath.h>
 
 void initClickies(Clickies* clickies)
 {
@@ -88,11 +90,12 @@ Clicky createPenguinLolClicky(Game* game)
 {
     Clicky clicky;
 
+    clicky.type = PENGUIN_LOL_TYPE;
     clicky.animation = createAnimation(&game->assets.animations[PENGUIN_LOL_ANIMATION], ANIMATION_DEFAULT_DELAY);
     setAnimationFrame(&clicky.animation, clicky.animation.frameCount - 1);
     clicky.animation.repeat = false;
     clicky.texture = NULL;
-    clicky.rect = (Rectangle){0.0, 0.0, 512.0, 512.0};
+    clicky.rect = (Rectangle){0.0, 0.0, 400.0, 400.0};
 
     clicky.data = NULL;
     clicky.updateCB = updatePenguinLol;
@@ -127,21 +130,35 @@ void updateClicker(Game* game, Clicky* clicky)
     {
         Clickies* clickies = &game->clickies;
 
+        float cloestDistance = WINDOW_WIDTH * 2.0;
+        Clicky* closestClicky = NULL;
+
         for (int i = 0; i < clickies->clickiesCount; ++i)
         {
             Clicky* testClicky = &clickies->clickies[i];
 
             // Same clicky lmao.
-            if (testClicky == clicky)
+            if (testClicky == clicky && testClicky->type == CLICKER_TYPE)
             {
                 continue;
             }
 
-            if (CheckCollisionRecs(clicky->rect, testClicky->rect))
+            double distance = Vector2Distance(
+                (Vector2){clicky->rect.x, clicky->rect.y},
+                (Vector2){testClicky->rect.x, testClicky->rect.y}
+            );
+
+            if (CheckCollisionRecs(clicky->rect, testClicky->rect) && distance < cloestDistance)
             {
-                testClicky->wasClicked = true;
-                break; // Clicker only clicks one clicky
+                closestClicky = testClicky;
+                cloestDistance = distance;
             }
+        }
+
+        // Clicker click the clicky.
+        if (closestClicky != NULL)
+        {
+            closestClicky->wasClicked = true;
         }
 
         clicker->timeLastClicked = currentTime;
@@ -168,6 +185,7 @@ Clicky createClickerClicky(Game* game)
 {
     Clicky clicky;
 
+    clicky.type = CLICKER_TYPE;
     clicky.animation = createAnimation(&game->assets.animations[CLICKER_ANIMATION], ANIMATION_DEFAULT_DELAY);
     playAnimation(&clicky.animation);
     clicky.animation.repeat = true;
