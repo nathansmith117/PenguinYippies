@@ -7,7 +7,8 @@ const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
     "toEmperorsEmporiumIcon.png",
     "toGameIcon.png",
     "emperorShopUI.png",
-    "shopBoard.png"
+    "shopBoard.png",
+    "stoneCurrency.png"
 };
 
 const char animationAssetsNames[ANIMATION_ASSET_COUNT][ASSETS_NAME_MAX] = {

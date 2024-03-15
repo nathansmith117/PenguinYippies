@@ -130,9 +130,20 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     }
 
     // Stones.
+    Texture stoneTexture = game->assets.textures[STONE_TEXTURE];
+
+    DrawTexturePro(
+        stoneTexture,
+        (Rectangle){5.0, 5.0, stoneTexture.width, stoneTexture.height},
+        (Rectangle){0.0, 0.0, 35.0, 35.0},
+        (Vector2){0.0, 0.0},
+        0.0,
+        WHITE
+    );
+
     char stonesBuf[30];
-    snprintf(stonesBuf, sizeof(stonesBuf), "Stones: %d", game->stones);
-    DrawText(stonesBuf, 10, 10, 20, BLACK);
+    snprintf(stonesBuf, sizeof(stonesBuf), "%d", game->stones);
+    DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
     //DrawFPS(0, 0);
 }
