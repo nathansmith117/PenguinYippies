@@ -39,6 +39,19 @@ void updateGameScreenClickyDesktop(GameScreen* gameScreen, Game* game)
     updateClickies(game, &game->clickies);
 }
 
+void updateGameScreenNavigation(GameScreen* gameScreen, Game* game)
+{
+    // Navigation buttons.
+    if (updateTexturedButton(&gameScreen->toGameButton))
+    {
+        gameScreen->place = CLICKY_DESKTOP_PLACE;
+    }
+    if (updateTexturedButton(&gameScreen->toEmperorsEmporiumButton))
+    {
+        gameScreen->place = SHOP_PLACE;
+    }
+}
+
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
      // Draw background.
@@ -52,16 +65,6 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
         0.0,
         WHITE
     );
-
-    // Navigation buttons.
-    if (updateTexturedButton(&gameScreen->toGameButton))
-    {
-        gameScreen->place = CLICKY_DESKTOP_PLACE;
-    }
-    if (updateTexturedButton(&gameScreen->toEmperorsEmporiumButton))
-    {
-        gameScreen->place = SHOP_PLACE;
-    }
 
     // assssssss hehehe
     switch (gameScreen->place)
@@ -92,7 +95,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     snprintf(stonesBuf, sizeof(stonesBuf), "%d", game->stones);
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
-    //DrawFPS(0, 0);
+    updateGameScreenNavigation(gameScreen, game);
 }
 
 void closeGameScreen(GameScreen* gameScreen)
