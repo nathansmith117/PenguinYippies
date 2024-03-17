@@ -23,10 +23,34 @@ void initGame(Game* game)
     game->screenTexture = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     game->stones = 0;
+
+    game->madeWithUnity = createAnimation(&game->assets.animations[MADE_WITH_UNITY_ANIMATION], 0.2);
+    game->madeWithUnity.repeat = false;
+    playAnimation(&game->madeWithUnity);
 }
 
 void updateGame(Game* game)
 {
+    if (game->madeWithUnity.playing)
+    {
+        runAnimation(&game->madeWithUnity);
+
+        BeginDrawing();
+
+        DrawTexturePro(
+            game->madeWithUnity.texture,
+            (Rectangle){0.0, 0.0, game->madeWithUnity.width, game->madeWithUnity.height},
+            (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
+            Vector2Zero(),
+            0.0,
+            WHITE
+        );
+
+        EndDrawing();
+
+        return;
+    }
+
     // Draw screen.
     BeginTextureMode(game->screenTexture);
 
@@ -66,6 +90,8 @@ void closeGame(Game* game)
     closeGameScreen(&game->gameScreen);
     closeClickies(&game->clickies);
     UnloadRenderTexture(game->screenTexture);
+
+    closeAnimation(&game->madeWithUnity);
 
     CloseWindow();
 }
