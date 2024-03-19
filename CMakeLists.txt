@@ -8,10 +8,20 @@ set(C_STANDARD 99)
 set(C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if (EMSCRIPTEN)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 -s ALLOW_MEMORY_GROWTH=1 -s STACK_SIZE=16777216")
+  set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
+endif ()
+
 # Add source files.
 file(GLOB SRC_FILES src/*.c)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
+
+# Link the assets
+if (${PLATFORM} MATCHES "Web")
+	set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "--preload-file assets")
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC include src)
 target_link_libraries(${PROJECT_NAME} raylib m)
