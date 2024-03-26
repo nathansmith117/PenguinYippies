@@ -2,6 +2,7 @@
 #include "game.h"
 #include "assets.h"
 #include "util.h"
+#include "clicky.h"
 #include <raylib.h>
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
@@ -65,6 +66,29 @@ void setGameScreenTool(GameScreen* gameScreen, ToolId tool)
         case CLICKER_TOOL:
             break;
         case BOOPER_TOOL:
+            break;
+        default:
+            break;
+    }
+}
+
+void updateGameScreenTool(GameScreen* gameScreen, Game* game)
+{
+    ToolId tool = gameScreen->tool;
+    Clickies* clickies = &game->clickies;
+
+    switch (tool)
+    {
+        case CLICKER_TOOL:
+            // Nothing lmao.
+            break;
+        case BOOPER_TOOL:
+
+            for (int i = 0; i < clickies->clickiesCount; ++i)
+            {
+                // Lazyness
+            }
+
             break;
         default:
             break;
@@ -158,6 +182,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
 
     updateGameScreenNavigation(gameScreen, game);
     updateGameScreenToolBar(gameScreen, game);
+    updateGameScreenTool(gameScreen, game);
 }
 
 void closeGameScreen(GameScreen* gameScreen)
