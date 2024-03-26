@@ -1,6 +1,7 @@
 #include "gameScreen.h"
 #include "game.h"
 #include "assets.h"
+#include "util.h"
 #include <raylib.h>
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
@@ -31,6 +32,8 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
     );
 
     initShop(&gameScreen->shop, game);
+
+    setGameScreenTool(gameScreen, CLICKER_TOOL);
 }
 
 void updateGameScreenClickyDesktop(GameScreen* gameScreen, Game* game)
@@ -49,6 +52,64 @@ void updateGameScreenNavigation(GameScreen* gameScreen, Game* game)
     if (updateTexturedButton(&gameScreen->toEmperorsEmporiumButton))
     {
         gameScreen->place = SHOP_PLACE;
+    }
+}
+
+void setGameScreenTool(GameScreen* gameScreen, ToolId tool)
+{
+    gameScreen->tool = tool;
+
+    // TODO: Switch cursor for different tools
+    switch (tool)
+    {
+        case CLICKER_TOOL:
+            break;
+        case BOOPER_TOOL:
+            break;
+        default:
+            break;
+    }
+}
+
+void updateGameScreenToolBar(GameScreen* gameScreen, Game* game)
+{
+    int toolIconWidth = 50;
+    int toolIconHeight = 50;
+
+    Assets* assets = &game->assets;
+
+    Texture toolTextures[TOOL_COUNT] = {
+        assets->textures[CLICKER_TOOL_TEXTURE],
+        assets->textures[BOOPER_TOOL_TEXTURE]
+    };
+
+    for (int i = 0; i < TOOL_COUNT; ++i)
+    {
+        Rectangle rect = (Rectangle){i * toolIconWidth + 200, 0.0, toolIconWidth, toolIconHeight};
+        Texture texture = toolTextures[i];
+
+        // Draw tool texture.
+        DrawTexturePro(
+            texture,
+            (Rectangle){0.0, 0.0, texture.width, texture.height},
+            rect,
+            (Vector2){0.0, 0.0},
+            0.0,
+            WHITE
+        );
+
+        // Outline current tool
+        if (i == gameScreen->tool)
+        {
+            DrawRectangleLinesEx(rect, 3, BLACK);
+        }
+        else // Switch tools.
+        {
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(getScaledMousePosition(), rect))
+            {
+                setGameScreenTool(gameScreen, i);
+            }
+        }
     }
 }
 
@@ -96,6 +157,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
     updateGameScreenNavigation(gameScreen, game);
+    updateGameScreenToolBar(gameScreen, game);
 }
 
 void closeGameScreen(GameScreen* gameScreen)

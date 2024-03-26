@@ -12,6 +12,13 @@ typedef enum GamePlayPlace {
     SHOP_PLACE
 } GamePlayPlace;
 
+typedef enum ToolId {
+    CLICKER_TOOL,
+    BOOPER_TOOL
+} ToolId;
+
+#define TOOL_COUNT 2
+
 typedef struct GameScreen {
     GamePlayPlace place;
 
@@ -19,10 +26,14 @@ typedef struct GameScreen {
     TexturedButton toEmperorsEmporiumButton;
 
     Shop shop;
+
+    ToolId tool;
 } GameScreen;
 
 void initGameScreen(GameScreen* gameScreen, Game* game);
 void updateGameScreen(GameScreen* gameScreen, Game* game);
 void closeGameScreen(GameScreen* gameScreen);
+
+void setGameScreenTool(GameScreen* gameScreen, ToolId tool);
 
 #endif
