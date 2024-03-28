@@ -32,6 +32,20 @@ void addClickyToClickies(Clickies* clickies, Clicky clicky)
     clickies->clickies[clickies->clickiesCount - 1] = clicky;
 }
 
+void removeClickyFromClickies(Clickies* clickies, int id)
+{
+    // Free clicky.
+    clickies->clickies[id].freeCB(clickies->clickies[id]);
+
+    // Move things back.
+    for (int i = id; i < clickies->clickiesCount - 1; ++i)
+    {
+        clickies->clickies[i] = clickies->clickies[i + 1];
+    }
+
+    --clickies->clickiesCount;
+}
+
 void updateClickies(Game* game, Clickies* clickies)
 {
     for (int i = 0; i < clickies->clickiesCount; ++i)

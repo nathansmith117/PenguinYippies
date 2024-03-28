@@ -17,8 +17,10 @@ void initGame(Game* game)
     initClickies(&game->clickies);
 
     // Test clickies.
-    Clicky testClicky = createPenguinLolClicky(game);
-    addClickyToClickies(&game->clickies, testClicky);
+    Clicky firstClicky = createPenguinLolClicky(game);
+    firstClicky.rect.x = WINDOW_WIDTH / 2.0 - firstClicky.rect.width / 2.0;
+    firstClicky.rect.y = WINDOW_HEIGHT / 2.0 - firstClicky.rect.height / 2.0;
+    addClickyToClickies(&game->clickies, firstClicky);
 
     game->screenTexture = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 

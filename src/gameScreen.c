@@ -86,7 +86,25 @@ void updateGameScreenTool(GameScreen* gameScreen, Game* game)
 
             for (int i = 0; i < clickies->clickiesCount; ++i)
             {
-                // Lazyness
+                Rectangle rect = clickies->clickies[i].rect;
+
+                if (CheckCollisionPointRec(getScaledMousePosition(), rect))
+                {
+                    // Draw silly outline.
+                    Color colorOptions[] = {YELLOW, PINK, BLACK, BLUE, PURPLE, MAGENTA, RED};
+                    SetRandomSeed(time(NULL));
+                    int colorIndex = GetRandomValue(0, sizeof(colorOptions) / sizeof(Color) - 1);
+                    Color color = colorOptions[colorIndex];
+
+                    DrawRectangleLinesEx(rect, colorIndex + 1, color);
+
+                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                    {
+                        removeClickyFromClickies(clickies, i);
+                    }
+
+                    break; // Only one at a time.
+                }
             }
 
             break;
@@ -181,8 +199,8 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
     updateGameScreenNavigation(gameScreen, game);
+    updateGameScreenTool(gameScreen, game); // This should go before tool bar update because of how clicks work.
     updateGameScreenToolBar(gameScreen, game);
-    updateGameScreenTool(gameScreen, game);
 }
 
 void closeGameScreen(GameScreen* gameScreen)
