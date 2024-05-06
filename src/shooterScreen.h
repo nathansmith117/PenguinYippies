@@ -13,8 +13,11 @@
 
 #define MOUSE_SPEED 0.01
 
-#define SHOOTER_PENGUIN_COUNT 5
+#define SHOOTER_PENGUIN_COUNT 10
 #define SHOOTER_PENGUIN_HEIGHT 1.0
+#define SHOOTER_PENGUIN_CHANGE_DELAY_MIN 0 // Goes at you at 0
+#define SHOOTER_PENGUIN_CHANGE_DELAY_MAX 7
+#define SHOOTER_PENGUIN_SPEED 8.0
 
 typedef struct ShooterPlayer {
     Camera3D camera;
@@ -34,6 +37,9 @@ typedef struct ShooterPenguin {
     Vector3 position;
     Vector3 velocity;
     float sleepyness;
+
+    double changeSpeedDelay;
+    double lastVelocityChange;
 } ShooterPenguin;
 
 typedef struct ShooterScreen {

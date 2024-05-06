@@ -105,11 +105,53 @@ void updateShooterScreenJump(ShooterScreen* shooterScreen, Game* game)
 
 void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
 {
+    double currentTime = GetTime();
+    double frameTime = GetFrameTime();
     Texture texture = game->assets.textures[PENGUIN_BILLBOARD_TEXTURE];
     ShooterPenguin* penguins = shooterScreen->penguins;
 
     for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
     {
+        // Change velocity.
+        if ((int)(penguins[i].changeSpeedDelay) == 0) // Goes at you.
+        {
+            penguins[i].velocity = Vector3Subtract(shooterScreen->player.position, penguins[i].position);
+            penguins[i].velocity = Vector3Scale(Vector3Normalize(penguins[i].velocity), SHOOTER_PENGUIN_SPEED);
+            penguins[i].velocity.y = 0.0;
+        }
+        else if (currentTime - penguins[i].lastVelocityChange >= penguins[i].changeSpeedDelay)
+        {
+            if (Vector3Length(penguins[i].position) >= SHOOTER_MAP_SIZE) // Too far away.
+            {
+                // Make it come closer.
+                penguins[i].velocity = Vector3Negate(penguins[i].position);
+                penguins[i].velocity.y = 0.0;
+                penguins[i].velocity = Vector3Scale(Vector3Normalize(penguins[i].velocity), SHOOTER_PENGUIN_SPEED);
+            }
+            else
+            {
+                // Get random velocity.
+                SetRandomSeed(time(NULL));
+
+                penguins[i].velocity = (Vector3){
+                    (float)GetRandomValue(-1000, 1000) / 1000.0,
+                    0.0,
+                    (float)GetRandomValue(-1000, 1000) / 1000.0
+                };
+
+                penguins[i].velocity = Vector3Scale(Vector3Normalize(penguins[i].velocity), SHOOTER_PENGUIN_SPEED);
+            }
+
+            penguins[i].lastVelocityChange = currentTime;
+        }
+
+        // Apply velocity.
+        penguins[i].position = Vector3Add(
+            penguins[i].position,
+            Vector3Scale(penguins[i].velocity, frameTime)
+        );
+
+        // Draw them.
         DrawBillboard(shooterScreen->player.camera, texture, penguins[i].position, 2.0, WHITE);
     }
 }
@@ -171,6 +213,9 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
         shooterScreen->penguins[i].position = randomPosition;
         shooterScreen->penguins[i].velocity = Vector3Zero();
         shooterScreen->penguins[i].sleepyness = 0.0;
+        shooterScreen->penguins[i].changeSpeedDelay = GetRandomValue(SHOOTER_PENGUIN_CHANGE_DELAY_MIN,
+                                                                     SHOOTER_PENGUIN_CHANGE_DELAY_MAX);
+        shooterScreen->penguins[i].lastVelocityChange = 0.0;
     }
 }
 
