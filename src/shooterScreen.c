@@ -1,5 +1,6 @@
 #include "shooterScreen.h"
 #include "game.h"
+#include "assets.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -102,11 +103,14 @@ void updateShooterScreenJump(ShooterScreen* shooterScreen, Game* game)
     }
 }
 
-void updateShooterScreenPenguins(ShooterScreen* ShooterScreen, Game* game)
+void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
 {
+    Texture texture = game->assets.textures[PENGUIN_BILLBOARD_TEXTURE];
+    ShooterPenguin* penguins = shooterScreen->penguins;
+
     for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
     {
-
+        DrawBillboard(shooterScreen->player.camera, texture, penguins[i].position, 2.0, WHITE);
     }
 }
 

@@ -14,7 +14,7 @@
 #define MOUSE_SPEED 0.01
 
 #define SHOOTER_PENGUIN_COUNT 5
-#define SHOOTER_PENGUIN_HEIGHT 2.0
+#define SHOOTER_PENGUIN_HEIGHT 1.0
 
 typedef struct ShooterPlayer {
     Camera3D camera;
