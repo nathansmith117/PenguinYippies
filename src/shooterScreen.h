@@ -6,6 +6,9 @@
 #define PLAYER_HEIGHT 2.0
 #define MOUSE_SPEED 0.01
 #define PLAYER_SPEED 10.0
+#define PLAYER_JUMP_SPEED 15.0
+#define PLAYER_FALL_SPEED 18.0
+#define PLAYER_JUMP_HEIGHT 8.0
 
 typedef struct ShooterPlayer {
     Camera3D camera;
@@ -15,6 +18,8 @@ typedef struct ShooterPlayer {
     Vector3 velocity;
 
     Vector2 cameraAngle;
+
+    int jumpStage;
 } ShooterPlayer;
 
 typedef struct ShooterScreen {
