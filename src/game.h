@@ -4,13 +4,15 @@
 #include "assets.h"
 #include "clicky.h"
 #include "animation.h"
+#include "shooterScreen.h"
 
 #ifndef GAME_H
 #define GAME_H
 
 typedef enum ScreenId {
     MAIN_MENU_SCREEN,
-    GAME_SCREEN
+    GAME_SCREEN,
+    SHOOTER_SCREEN
 } ScreenId;
 
 typedef struct Game {
@@ -20,6 +22,7 @@ typedef struct Game {
     ScreenId currentScreen;
     MainMenu mainMenu;
     GameScreen gameScreen;
+    ShooterScreen shooterScreen;
 
     Clickies clickies;
 

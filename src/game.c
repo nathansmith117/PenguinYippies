@@ -12,6 +12,7 @@ void initGame(Game* game)
     game->currentScreen = MAIN_MENU_SCREEN;
     initMainMenu(&game->mainMenu, game);
     initGameScreen(&game->gameScreen, game);
+    initShooterScreeen(&game->shooterScreen, game);
 
     // Clickies lol.
     initClickies(&game->clickies);
@@ -28,7 +29,7 @@ void initGame(Game* game)
 
     game->madeWithUnity = createAnimation(&game->assets.animations[MADE_WITH_UNITY_ANIMATION], 0.2);
     game->madeWithUnity.repeat = false;
-    playAnimation(&game->madeWithUnity);
+    //playAnimation(&game->madeWithUnity);
 }
 
 void updateGame(Game* game)
@@ -64,6 +65,9 @@ void updateGame(Game* game)
         case GAME_SCREEN:
             updateGameScreen(&game->gameScreen, game);
             break;
+        case SHOOTER_SCREEN:
+            updateShooterScreen(&game->shooterScreen, game);
+            break;
         default:
             break;
     }
@@ -90,6 +94,7 @@ void closeGame(Game* game)
     closeAssets(&game->assets);
     closeMainMenu(&game->mainMenu);
     closeGameScreen(&game->gameScreen);
+    closeShooterScreen(&game->shooterScreen);
     closeClickies(&game->clickies);
     UnloadRenderTexture(game->screenTexture);
 

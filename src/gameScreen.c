@@ -3,6 +3,7 @@
 #include "assets.h"
 #include "util.h"
 #include "clicky.h"
+#include "shooterScreen.h"
 #include <raylib.h>
 
 void initGameScreen(GameScreen* gameScreen, Game* game)
@@ -157,6 +158,13 @@ void updateGameScreenToolBar(GameScreen* gameScreen, Game* game)
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
+
+    // Testy shooter.
+    if(IsKeyPressed(KEY_S))
+    {
+        enterShooterScreen(game);
+    }
+
      // Draw background.
     Texture background = game->assets.textures[MAIN_SCREEN_BACKGROUND_TEXTURE];
 
