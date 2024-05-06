@@ -16,8 +16,11 @@ void initShooterScreeen(ShooterScreen* shooterScreen, Game* game)
         .direction = (Vector3){0.0, 0.0, 1.0},
         .velocity = Vector3Zero(),
         .cameraAngle = Vector2Zero(),
-        .jumpStage = 0
+        .jumpStage = 0,
+        .sleepyness = 0.0
     };
+
+    resetShooterScreen(shooterScreen);
 }
 
 void updateShooterScreenControls(ShooterScreen* shooterScreen, Game* game)
@@ -99,6 +102,14 @@ void updateShooterScreenJump(ShooterScreen* shooterScreen, Game* game)
     }
 }
 
+void updateShooterScreenPenguins(ShooterScreen* ShooterScreen, Game* game)
+{
+    for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
+    {
+
+    }
+}
+
 void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
 {
     ShooterPlayer* player = &shooterScreen->player;
@@ -120,13 +131,43 @@ void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
     // Draw 3d scene.
     BeginMode3D(shooterScreen->player.camera);
 
-    DrawGrid(32, 2.0);
+    DrawGrid(SHOOTER_MAP_SIZE, 2.0);
+
+    updateShooterScreenPenguins(shooterScreen, game);
 
     EndMode3D();
 }
 
 void closeShooterScreen(ShooterScreen* shooterScreen)
 {
+}
+
+void resetShooterScreen(ShooterScreen* shooterScreen)
+{
+    // Player.
+    ShooterPlayer* player = &shooterScreen->player;
+    player->position = (Vector3){0.0, PLAYER_HEIGHT, 0.0};
+    player->direction = (Vector3){0.0, 0.0, 1.0};
+    player->cameraAngle = Vector2Zero();
+    player->jumpStage = 0;
+    player->sleepyness = 0.0;
+    player->velocity = Vector3Zero();
+
+    // Penguins.
+    SetRandomSeed(time(NULL));
+
+    for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
+    {
+        Vector3 randomPosition = (Vector3){
+            GetRandomValue(-SHOOTER_MAP_SIZE, SHOOTER_MAP_SIZE),
+            SHOOTER_PENGUIN_HEIGHT,
+            GetRandomValue(-SHOOTER_MAP_SIZE, SHOOTER_MAP_SIZE)
+        };
+
+        shooterScreen->penguins[i].position = randomPosition;
+        shooterScreen->penguins[i].velocity = Vector3Zero();
+        shooterScreen->penguins[i].sleepyness = 0.0;
+    }
 }
 
 void enterShooterScreen(Game* game)
