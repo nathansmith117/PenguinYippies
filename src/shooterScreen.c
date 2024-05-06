@@ -24,6 +24,56 @@ void initShooterScreeen(ShooterScreen* shooterScreen, Game* game)
     resetShooterScreen(shooterScreen);
 }
 
+void shootBulletShooterScreen(ShooterScreen* shooterScreen, Game* game)
+{
+    ShooterPlayer* player = &shooterScreen->player;
+
+    // Bullet ray.
+    Ray ray = (Ray){
+        .position = player->position,
+        .direction = player->direction
+    };
+
+    // Bounding box that will be used for all penguins.
+    BoundingBox penguinBox = (BoundingBox){
+        .min = (Vector3){-0.5, -1.0, -0.5},
+        .max = (Vector3){0.5, 1.0, 0.5}
+    };
+
+    ShooterPenguin* closestPenguin = NULL;
+    float closestDistance = 0.0;
+
+    for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
+    {
+        ShooterPenguin* penguin = &shooterScreen->penguins[i];
+
+        // Get the box at the penguins position.
+        BoundingBox currentBox = (BoundingBox){
+            .min = Vector3Add(penguin->position, penguinBox.min),
+            .max = Vector3Add(penguin->position, penguinBox.max)
+        };
+
+        // Check collision.
+        if (GetRayCollisionBox(ray, currentBox).hit)
+        {
+            float distance = Vector3Distance(penguin->position, shooterScreen->player.position);
+
+            // Is closest or first.
+            if (distance < closestDistance || closestPenguin == NULL)
+            {
+                closestPenguin = penguin;
+                closestDistance = distance;
+            }
+        }
+    }
+
+    // Removed penguin if shot.
+    if (closestPenguin != NULL)
+    {
+        closestPenguin->isDead = true;
+    }
+}
+
 void updateShooterScreenControls(ShooterScreen* shooterScreen, Game* game)
 {
     ShooterPlayer* player = &shooterScreen->player;
@@ -66,6 +116,12 @@ void updateShooterScreenControls(ShooterScreen* shooterScreen, Game* game)
     if (IsKeyPressed(KEY_SPACE))
     {
         player->jumpStage = 1;
+    }
+
+    // Shoot
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        shootBulletShooterScreen(shooterScreen, game);
     }
 
     player->velocity = Vector3Scale(player->velocity, PLAYER_SPEED);
@@ -112,6 +168,12 @@ void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
 
     for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
     {
+        // It is dead ):
+        if (penguins[i].isDead)
+        {
+            continue;
+        }
+        
         // Change velocity.
         if ((int)(penguins[i].changeSpeedDelay) == 0) // Goes at you.
         {
@@ -156,10 +218,26 @@ void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
     }
 }
 
+void drawCrosshairShooterScreen(int size, int thickness)
+{
+    int halfWidth = GetScreenWidth() / 2;
+    int halfHeight = GetScreenHeight() / 2;
+
+    // Left to right.
+    DrawLineEx((Vector2){halfWidth - size, halfHeight},
+        (Vector2){halfWidth + size, halfHeight}, thickness, BLACK);
+
+    // Top to bottom.
+    DrawLineEx((Vector2){halfWidth, halfHeight - size},
+        (Vector2){halfWidth, halfHeight + size}, thickness, BLACK);
+}
+
 void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
 {
     ShooterPlayer* player = &shooterScreen->player;
     ClearBackground(PINK);
+
+    drawCrosshairShooterScreen(10, 2);
 
     updateShooterScreenControls(shooterScreen, game);
     updateShooterScreenJump(shooterScreen, game);
@@ -178,7 +256,6 @@ void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
     BeginMode3D(shooterScreen->player.camera);
 
     DrawGrid(SHOOTER_MAP_SIZE, 2.0);
-
     updateShooterScreenPenguins(shooterScreen, game);
 
     EndMode3D();
@@ -212,10 +289,10 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
 
         shooterScreen->penguins[i].position = randomPosition;
         shooterScreen->penguins[i].velocity = Vector3Zero();
-        shooterScreen->penguins[i].sleepyness = 0.0;
         shooterScreen->penguins[i].changeSpeedDelay = GetRandomValue(SHOOTER_PENGUIN_CHANGE_DELAY_MIN,
                                                                      SHOOTER_PENGUIN_CHANGE_DELAY_MAX);
         shooterScreen->penguins[i].lastVelocityChange = 0.0;
+        shooterScreen->penguins[i].isDead = false;
     }
 }
 

@@ -11,7 +11,7 @@
 #define PLAYER_FALL_SPEED 20.0
 #define PLAYER_JUMP_HEIGHT 8.0
 
-#define MOUSE_SPEED 0.01
+#define MOUSE_SPEED 0.005
 
 #define SHOOTER_PENGUIN_COUNT 10
 #define SHOOTER_PENGUIN_HEIGHT 1.0
@@ -36,10 +36,11 @@ typedef struct ShooterPlayer {
 typedef struct ShooterPenguin {
     Vector3 position;
     Vector3 velocity;
-    float sleepyness;
 
     double changeSpeedDelay;
     double lastVelocityChange;
+
+    bool isDead;
 } ShooterPenguin;
 
 typedef struct ShooterScreen {
