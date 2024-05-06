@@ -80,9 +80,9 @@ void updateShooterScreenJump(ShooterScreen* shooterScreen, Game* game)
         case 0: // No Jumpy
             break;
         case 1: // Jump up
-            player->velocity.y = PLAYER_JUMP_SPEED;
+            player->velocity.y = PLAYER_JUMP_SPEED * pow(((PLAYER_JUMP_HEIGHT + PLAYER_HEIGHT)  - player->position.y), 2.0);
 
-            if (player->position.y >= PLAYER_JUMP_HEIGHT + PLAYER_HEIGHT)
+            if ((int)player->velocity.y == 0)
             {
                 player->jumpStage = 2;
             }
