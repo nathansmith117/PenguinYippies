@@ -158,13 +158,6 @@ void updateGameScreenToolBar(GameScreen* gameScreen, Game* game)
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
-
-    // Testy shooter.
-    if(IsKeyPressed(KEY_S))
-    {
-        enterShooterScreen(game);
-    }
-
      // Draw background.
     Texture background = game->assets.textures[MAIN_SCREEN_BACKGROUND_TEXTURE];
 
@@ -205,6 +198,13 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     char stonesBuf[30];
     snprintf(stonesBuf, sizeof(stonesBuf), "%d", game->stones);
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
+
+    // Shooter game time.
+    if (game->stones % RUN_SHOOTER_GAME_EVERY == 0 && game->stones >= RUN_SHOOTER_GAME_EVERY)
+    {
+        ++game->stones;
+        enterShooterScreen(game);
+    }
 
     updateGameScreenNavigation(gameScreen, game);
     updateGameScreenTool(gameScreen, game); // This should go before tool bar update because of how clicks work.

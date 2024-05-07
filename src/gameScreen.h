@@ -7,6 +7,8 @@
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
 
+#define RUN_SHOOTER_GAME_EVERY 100
+
 typedef enum GamePlayPlace {
     CLICKY_DESKTOP_PLACE,
     SHOP_PLACE

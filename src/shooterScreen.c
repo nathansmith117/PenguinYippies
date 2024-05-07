@@ -246,7 +246,7 @@ void drawUIShooterScreen(ShooterScreen* shooterScreen, Game* game)
     size_t bufSize = 100;
     char buf[bufSize];
 
-    snprintf(buf, bufSize, "Time playing: %d\nPenguins still awake: %d",
+    snprintf(buf, bufSize, "They are sleeping not dead (:\nTime playing: %d\nPenguins still awake: %d",
         (int)(GetTime() - shooterScreen->startTime),
         SHOOTER_PENGUIN_COUNT - shooterScreen->killCount);
 
