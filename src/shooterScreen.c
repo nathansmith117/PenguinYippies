@@ -119,12 +119,6 @@ void updateShooterScreenControls(ShooterScreen* shooterScreen, Game* game)
         player->velocity.x += -sin(player->cameraAngle.x + (PI / 2.0));
     }
 
-    // Jump
-    if (IsKeyPressed(KEY_SPACE))
-    {
-        player->jumpStage = 1;
-    }
-
     // Shoot
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
@@ -132,38 +126,6 @@ void updateShooterScreenControls(ShooterScreen* shooterScreen, Game* game)
     }
 
     player->velocity = Vector3Scale(player->velocity, PLAYER_SPEED);
-}
-
-void updateShooterScreenJump(ShooterScreen* shooterScreen, Game* game)
-{
-    ShooterPlayer* player = &shooterScreen->player;
-
-    switch (player->jumpStage)
-    {
-        case 0: // No Jumpy
-            break;
-        case 1: // Jump up
-            player->velocity.y = PLAYER_JUMP_SPEED * pow(((PLAYER_JUMP_HEIGHT + PLAYER_HEIGHT)  - player->position.y), 2.0);
-
-            if ((int)player->velocity.y == 0)
-            {
-                player->jumpStage = 2;
-            }
-
-            break;
-        case 2: // Fall
-            player->velocity.y = -PLAYER_FALL_SPEED;
-
-            if (player->position.y <= PLAYER_HEIGHT)
-            {
-                player->jumpStage = 0;
-                player->position.y = PLAYER_HEIGHT;
-            }
-
-            break;
-        default:
-            break;
-    }
 }
 
 void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
@@ -182,7 +144,7 @@ void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
         }
         
         // Change velocity.
-        if ((int)(penguins[i].changeSpeedDelay) == 0) // Goes at you.
+        if (FloatEquals(penguins[i].changeSpeedDelay, 0.0)) // Goes at you.
         {
             penguins[i].velocity = Vector3Subtract(shooterScreen->player.position, penguins[i].position);
             penguins[i].velocity = Vector3Scale(Vector3Normalize(penguins[i].velocity), SHOOTER_PENGUIN_SPEED);
@@ -284,7 +246,6 @@ void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
     ClearBackground(PINK);
 
     updateShooterScreenControls(shooterScreen, game);
-    updateShooterScreenJump(shooterScreen, game);
 
     // Apply velocity.
     player->position = Vector3Add(
