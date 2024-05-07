@@ -7,9 +7,14 @@
 #include <raylib.h>
 #include <raymath.h>
 
+//#define PLATFORM_WEB
+
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
+
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
-
 
 // Memory management.
 #define YP_MALLOC(size) malloc(size)
