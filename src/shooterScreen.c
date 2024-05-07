@@ -17,8 +17,7 @@ void initShooterScreeen(ShooterScreen* shooterScreen, Game* game)
         .direction = (Vector3){0.0, 0.0, 1.0},
         .velocity = Vector3Zero(),
         .cameraAngle = Vector2Zero(),
-        .jumpStage = 0,
-        .sleepyness = 0.0
+        .jumpStage = 0
     };
 
     resetShooterScreen(shooterScreen);
@@ -71,6 +70,7 @@ void shootBulletShooterScreen(ShooterScreen* shooterScreen, Game* game)
     if (closestPenguin != NULL)
     {
         closestPenguin->isDead = true;
+        ++shooterScreen->killCount;
     }
 }
 
@@ -232,12 +232,26 @@ void drawCrosshairShooterScreen(int size, int thickness)
         (Vector2){halfWidth, halfHeight + size}, thickness, BLACK);
 }
 
+void drawUIShooterScreen(ShooterScreen* shooterScreen, Game* game)
+{
+    drawCrosshairShooterScreen(10, 2);
+
+    size_t bufSize = 100;
+    char buf[bufSize];
+
+    snprintf(buf, bufSize, "Time playing: %d\nPenguins still awake: %d",
+        (int)(GetTime() - shooterScreen->startTime),
+        SHOOTER_PENGUIN_COUNT - shooterScreen->killCount);
+
+    DrawText(buf, 0, 0, 20, BLACK);
+}
+
 void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
 {
     ShooterPlayer* player = &shooterScreen->player;
     ClearBackground(PINK);
 
-    drawCrosshairShooterScreen(10, 2);
+    drawUIShooterScreen(shooterScreen, game);
 
     updateShooterScreenControls(shooterScreen, game);
     updateShooterScreenJump(shooterScreen, game);
@@ -273,7 +287,6 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
     player->direction = (Vector3){0.0, 0.0, 1.0};
     player->cameraAngle = Vector2Zero();
     player->jumpStage = 0;
-    player->sleepyness = 0.0;
     player->velocity = Vector3Zero();
 
     // Penguins.
@@ -294,12 +307,16 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
         shooterScreen->penguins[i].lastVelocityChange = 0.0;
         shooterScreen->penguins[i].isDead = false;
     }
+
+    // Time.
+    shooterScreen->startTime = GetTime();
 }
 
 void enterShooterScreen(Game* game)
 {
     game->currentScreen = SHOOTER_SCREEN;
     DisableCursor();
+    resetShooterScreen(&game->shooterScreen);
 }
 void leaveShooterScreen(Game* game)
 {

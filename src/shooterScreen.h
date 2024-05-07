@@ -29,7 +29,6 @@ typedef struct ShooterPlayer {
     Vector2 cameraAngle;
 
     int jumpStage;
-    float sleepyness;
 } ShooterPlayer;
 
 // Penguin to "put to sleep".
@@ -46,6 +45,8 @@ typedef struct ShooterPenguin {
 typedef struct ShooterScreen {
     ShooterPlayer player;
     ShooterPenguin penguins[SHOOTER_PENGUIN_COUNT];
+    double startTime;
+    int killCount; // "Sleep" count.
 } ShooterScreen;
 
 void initShooterScreeen(ShooterScreen* shooterScreen, Game* game);
