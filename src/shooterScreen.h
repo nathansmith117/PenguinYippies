@@ -19,6 +19,8 @@
 #define SHOOTER_PENGUIN_CHANGE_DELAY_MAX 7
 #define SHOOTER_PENGUIN_SPEED 8.0
 
+#define SHOOTER_END_LEVEL_TIME 7.0
+
 typedef struct ShooterPlayer {
     Camera3D camera;
 
@@ -47,6 +49,13 @@ typedef struct ShooterScreen {
     ShooterPenguin penguins[SHOOTER_PENGUIN_COUNT];
     double startTime;
     int killCount; // "Sleep" count.
+
+    // Penguin naps per second.
+    float pnps;
+    float bestPNPS;
+
+    bool atEndLevel;
+    double endLevelStartTime;
 } ShooterScreen;
 
 void initShooterScreeen(ShooterScreen* shooterScreen, Game* game);

@@ -20,6 +20,8 @@ void initShooterScreeen(ShooterScreen* shooterScreen, Game* game)
         .jumpStage = 0
     };
 
+    shooterScreen->bestPNPS = 0.0;
+
     resetShooterScreen(shooterScreen);
 }
 
@@ -45,6 +47,11 @@ void shootBulletShooterScreen(ShooterScreen* shooterScreen, Game* game)
     for (int i = 0; i < SHOOTER_PENGUIN_COUNT; ++i)
     {
         ShooterPenguin* penguin = &shooterScreen->penguins[i];
+
+        if (penguin->isDead)
+        {
+            continue;
+        }
 
         // Get the box at the penguins position.
         BoundingBox currentBox = (BoundingBox){
@@ -220,8 +227,8 @@ void updateShooterScreenPenguins(ShooterScreen* shooterScreen, Game* game)
 
 void drawCrosshairShooterScreen(int size, int thickness)
 {
-    int halfWidth = GetScreenWidth() / 2;
-    int halfHeight = GetScreenHeight() / 2;
+    int halfWidth = WINDOW_WIDTH / 2;
+    int halfHeight = WINDOW_HEIGHT / 2;
 
     // Left to right.
     DrawLineEx((Vector2){halfWidth - size, halfHeight},
@@ -246,12 +253,35 @@ void drawUIShooterScreen(ShooterScreen* shooterScreen, Game* game)
     DrawText(buf, 0, 0, 20, BLACK);
 }
 
+void drawShooterScreenEndLevel(ShooterScreen* shooterScreen, Game* game)
+{
+    // Set pnps.
+    if (FloatEquals(shooterScreen->pnps, 0.0))
+    {
+        shooterScreen->pnps = (float)SHOOTER_PENGUIN_COUNT / (GetTime() - shooterScreen->startTime);
+
+        // Find best pnps.
+        if (shooterScreen->pnps > shooterScreen->bestPNPS)
+        {
+            shooterScreen->bestPNPS = shooterScreen->pnps;
+        }
+    }
+
+    // Format message.
+    size_t bufSize = 100;
+    char buf[bufSize];
+
+    snprintf(buf, bufSize, "Level done with a penguin naps per seconds (pnps) of: %f\n\tBest npns this game: %f",
+        shooterScreen->pnps, shooterScreen->bestPNPS);
+
+    // Draw it.
+    DrawText(buf, WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0, 25, BLACK);
+}
+
 void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
 {
     ShooterPlayer* player = &shooterScreen->player;
     ClearBackground(PINK);
-
-    drawUIShooterScreen(shooterScreen, game);
 
     updateShooterScreenControls(shooterScreen, game);
     updateShooterScreenJump(shooterScreen, game);
@@ -273,6 +303,28 @@ void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
     updateShooterScreenPenguins(shooterScreen, game);
 
     EndMode3D();
+
+    drawUIShooterScreen(shooterScreen, game);
+
+    // End of level.
+    if (shooterScreen->killCount == SHOOTER_PENGUIN_COUNT)
+    {
+        // Start timer.
+        if (!shooterScreen->atEndLevel)
+        {
+            shooterScreen->endLevelStartTime = GetTime();
+            shooterScreen->atEndLevel = true;
+        }
+
+        // Back to main game.
+        if (GetTime() - shooterScreen->endLevelStartTime >= SHOOTER_END_LEVEL_TIME || IsKeyPressed(KEY_SPACE))
+        {
+            leaveShooterScreen(game);
+            game->currentScreen = GAME_SCREEN;
+        }
+        
+        drawShooterScreenEndLevel(shooterScreen, game);
+    }
 }
 
 void closeShooterScreen(ShooterScreen* shooterScreen)
@@ -308,8 +360,13 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
         shooterScreen->penguins[i].isDead = false;
     }
 
+    shooterScreen->pnps = 0.0;
+    shooterScreen->killCount = 0;
+
     // Time.
     shooterScreen->startTime = GetTime();
+
+    shooterScreen->atEndLevel = false;
 }
 
 void enterShooterScreen(Game* game)
