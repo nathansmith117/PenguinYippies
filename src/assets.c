@@ -11,7 +11,9 @@ const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
     "stoneCurrency.png",
     "clickerTool.png",
     "booperTool.png",
-    "penguinBillboard.png"
+    "penguinBillboard.png",
+    "toGackIcon.png",
+    "gackPenguin.png"
 };
 
 const char animationAssetsNames[ANIMATION_ASSET_COUNT][ASSETS_NAME_MAX] = {

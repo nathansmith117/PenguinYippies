@@ -33,6 +33,14 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         BLACK
     );
 
+    gameScreen->toGackPenguinButton = createTexturedButton(
+        &assets->textures[TO_GACK_ICON_TEXTURE],
+        (Rectangle){navigationButtonX, (navigationButtonSize + 15.0) * 2.0, navigationButtonSize, navigationButtonSize},
+        "",
+        WHITE,
+        BLACK
+    );
+
     gameScreen->nextShootingStoneCount = RUN_SHOOTER_GAME_COUNT_START;
 
     initShop(&gameScreen->shop, game);
@@ -56,6 +64,10 @@ void updateGameScreenNavigation(GameScreen* gameScreen, Game* game)
     if (updateTexturedButton(&gameScreen->toEmperorsEmporiumButton))
     {
         gameScreen->place = SHOP_PLACE;
+    }
+    if (updateTexturedButton(&gameScreen->toGackPenguinButton))
+    {
+        gameScreen->place = GACK_PLACE;
     }
 }
 
@@ -186,6 +198,9 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
             break;
         case SHOP_PLACE:
             updateShop(&gameScreen->shop, game);
+            break;
+        case GACK_PLACE:
+            updateGack(&gameScreen->gack, game);
             break;
         default:
             break;

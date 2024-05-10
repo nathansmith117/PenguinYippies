@@ -3,6 +3,7 @@
 #include "ui.h"
 #include "clicky.h"
 #include "shop.h"
+#include "gack.h"
 
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
@@ -11,7 +12,8 @@
 
 typedef enum GamePlayPlace {
     CLICKY_DESKTOP_PLACE,
-    SHOP_PLACE
+    SHOP_PLACE,
+    GACK_PLACE
 } GamePlayPlace;
 
 typedef enum ToolId {
@@ -26,8 +28,10 @@ typedef struct GameScreen {
 
     TexturedButton toGameButton;
     TexturedButton toEmperorsEmporiumButton;
+    TexturedButton toGackPenguinButton;
 
     Shop shop;
+    Gack gack;
 
     ToolId tool;
 
