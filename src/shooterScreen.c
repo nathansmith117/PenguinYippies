@@ -226,6 +226,8 @@ void drawShooterScreenEndLevel(ShooterScreen* shooterScreen, Game* game)
         if (shooterScreen->pnps > shooterScreen->bestPNPS)
         {
             shooterScreen->bestPNPS = shooterScreen->pnps;
+            shooterScreen->highScoreBeat = true;
+            game->stones *= 1.5; // %50 stone increase.
         }
     }
 
@@ -233,11 +235,17 @@ void drawShooterScreenEndLevel(ShooterScreen* shooterScreen, Game* game)
     size_t bufSize = 100;
     char buf[bufSize];
 
-    snprintf(buf, bufSize, "Level done with a penguin naps per seconds (pnps) of: %f\n\tBest npns this game: %f",
+    snprintf(buf, bufSize, "Level done with a penguin naps per seconds (pnps) of: %f\n    Best npns this game: %f",
         shooterScreen->pnps, shooterScreen->bestPNPS);
 
     // Draw it.
     DrawText(buf, WINDOW_WIDTH / 4.0, WINDOW_HEIGHT / 2.0, 25, BLACK);
+
+    // high score beat.
+    if (shooterScreen->highScoreBeat)
+    {
+        DrawText("For beating the high score you get a %50 stone increase!", 20.0, WINDOW_HEIGHT / 2.0 - 100.0, 40.0, BLACK);
+    }
 }
 
 void updateShooterScreen(ShooterScreen* shooterScreen, Game* game)
@@ -326,8 +334,8 @@ void resetShooterScreen(ShooterScreen* shooterScreen)
 
     // Time.
     shooterScreen->startTime = GetTime();
-
     shooterScreen->atEndLevel = false;
+    shooterScreen->highScoreBeat = false;
 }
 
 void enterShooterScreen(Game* game)

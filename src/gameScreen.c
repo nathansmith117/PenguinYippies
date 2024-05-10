@@ -160,6 +160,12 @@ void updateGameScreenToolBar(GameScreen* gameScreen, Game* game)
 
 void updateGameScreen(GameScreen* gameScreen, Game* game)
 {
+    // Test shooter.
+    // if (IsKeyPressed(KEY_S))
+    // {
+    //     enterShooterScreen(game);
+    // }
+
      // Draw background.
     Texture background = game->assets.textures[MAIN_SCREEN_BACKGROUND_TEXTURE];
 

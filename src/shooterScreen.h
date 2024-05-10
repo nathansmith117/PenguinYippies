@@ -56,6 +56,7 @@ typedef struct ShooterScreen {
 
     bool atEndLevel;
     double endLevelStartTime;
+    bool highScoreBeat;
 } ShooterScreen;
 
 void initShooterScreeen(ShooterScreen* shooterScreen, Game* game);
