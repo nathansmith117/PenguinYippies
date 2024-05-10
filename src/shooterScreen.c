@@ -205,10 +205,10 @@ void drawUIShooterScreen(ShooterScreen* shooterScreen, Game* game)
 {
     drawCrosshairShooterScreen(10, 2);
 
-    size_t bufSize = 100;
+    size_t bufSize = 256;
     char buf[bufSize];
 
-    snprintf(buf, bufSize, "They are sleeping not dead (:\nTime playing: %d\nPenguins still awake: %d",
+    snprintf(buf, bufSize, "They are sleeping not dead (:\nTime playing: %d\nPenguins still awake: %d\n\n-w, a, s, d to move around\n-mouse to aim\n-and click to put a penguin to sleep",
         (int)(GetTime() - shooterScreen->startTime),
         SHOOTER_PENGUIN_COUNT - shooterScreen->killCount);
 

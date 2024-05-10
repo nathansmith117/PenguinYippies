@@ -33,6 +33,8 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         BLACK
     );
 
+    gameScreen->nextShootingStoneCount = RUN_SHOOTER_GAME_COUNT_START;
+
     initShop(&gameScreen->shop, game);
 
     setGameScreenTool(gameScreen, CLICKER_TOOL);
@@ -200,11 +202,16 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
     // Shooter game time.
-    if (game->stones % RUN_SHOOTER_GAME_EVERY == 0 && game->stones >= RUN_SHOOTER_GAME_EVERY)
+    if (game->stones >= gameScreen->nextShootingStoneCount)
     {
         ++game->stones;
         enterShooterScreen(game);
+        gameScreen->nextShootingStoneCount *= 2.5;
     }
+
+    char nextShooterBuf[60];
+    snprintf(nextShooterBuf, sizeof(nextShooterBuf), "Next sleepy time is at %d stones", gameScreen->nextShootingStoneCount);
+    DrawText(nextShooterBuf, 350.0, 5.0, 20, BLACK);
 
     updateGameScreenNavigation(gameScreen, game);
     updateGameScreenTool(gameScreen, game); // This should go before tool bar update because of how clicks work.

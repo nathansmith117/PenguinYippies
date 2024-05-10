@@ -7,7 +7,7 @@
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
 
-#define RUN_SHOOTER_GAME_EVERY 100
+#define RUN_SHOOTER_GAME_COUNT_START 500
 
 typedef enum GamePlayPlace {
     CLICKY_DESKTOP_PLACE,
@@ -30,6 +30,8 @@ typedef struct GameScreen {
     Shop shop;
 
     ToolId tool;
+
+    int nextShootingStoneCount;
 } GameScreen;
 
 void initGameScreen(GameScreen* gameScreen, Game* game);

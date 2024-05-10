@@ -29,7 +29,7 @@ void initGame(Game* game)
 
     game->madeWithUnity = createAnimation(&game->assets.animations[MADE_WITH_UNITY_ANIMATION], 0.2);
     game->madeWithUnity.repeat = false;
-    playAnimation(&game->madeWithUnity);
+    //playAnimation(&game->madeWithUnity);
 }
 
 void updateGame(Game* game)
