@@ -9,6 +9,9 @@
 void initClickies(Clickies* clickies)
 {
     clickies->clickiesCount = 0;
+
+    clickies->settings.penguinLolStonesPerClick = 1;
+    clickies->settings.clickersDelay = CLICKER_DEFAULT_DELAY;
 }
 
 void closeClickies(Clickies* clickies)
@@ -71,7 +74,7 @@ void updatePenguinLol(Game* game, Clicky* clicky)
     if (clicky->wasClicked)
     {
         replayAnimation(&clicky->animation);
-        ++game->stones;
+        game->stones += game->clickies.settings.penguinLolStonesPerClick;
         clicky->wasClicked = false;
     }
 
@@ -140,7 +143,7 @@ void updateClicker(Game* game, Clicky* clicky)
     // Collides with a other clicky.
     double currentTime = GetTime();
 
-    if (currentTime - clicker->timeLastClicked >= clicker->delay)
+    if (currentTime - clicker->timeLastClicked >= game->clickies.settings.clickersDelay)
     {
         Clickies* clickies = &game->clickies;
 
@@ -216,7 +219,6 @@ Clicky createClickerClicky(Game* game)
 
     Clicker* clicker = (Clicker*)clicky.data;
     clicker->timeLastClicked = 0.0;
-    clicker->delay = CLICKER_DEFAULT_DELAY;
 
     clicky.updateCB = updateClicker;
     clicky.freeCB = freeClicker;

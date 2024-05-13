@@ -36,12 +36,16 @@ typedef struct Clicky {
 // ittle thingy used by the clicker
 typedef struct Clicker {
     double timeLastClicked;
-    double delay;
 } Clicker;
 
 typedef struct Clickies {
     Clicky clickies[MAX_CLICKIES];
     size_t clickiesCount;
+
+    struct {
+        int penguinLolStonesPerClick;
+        double clickersDelay;
+    } settings;
 } Clickies;
 
 void initClickies(Clickies* clickies);
