@@ -44,6 +44,7 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
     gameScreen->nextShootingStoneCount = RUN_SHOOTER_GAME_COUNT_START;
 
     initShop(&gameScreen->shop, game);
+    initGack(&gameScreen->gack);
 
     setGameScreenTool(gameScreen, CLICKER_TOOL);
 }
@@ -227,7 +228,7 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     {
         ++game->stones;
         enterShooterScreen(game);
-        gameScreen->nextShootingStoneCount *= 2.5;
+        gameScreen->nextShootingStoneCount *= 5.0;
     }
 
     char nextShooterBuf[60];
