@@ -35,6 +35,7 @@ typedef struct GameScreen {
 
     ToolId tool;
 
+    TexturedButton napTimeButton;
     int nextShootingStoneCount;
 } GameScreen;
 

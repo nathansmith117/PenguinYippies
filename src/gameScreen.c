@@ -41,6 +41,15 @@ void initGameScreen(GameScreen* gameScreen, Game* game)
         BLACK
     );
 
+    // Nap Time stuff.
+    gameScreen->napTimeButton = createTexturedButton(
+        &assets->textures[NAP_TIME_TEXTURE],
+        (Rectangle){700.0, 5.0, 100.0, 50.0},
+        "",
+        WHITE,
+        BLACK
+    );
+
     gameScreen->nextShootingStoneCount = RUN_SHOOTER_GAME_COUNT_START;
 
     initShop(&gameScreen->shop, game);
@@ -223,12 +232,17 @@ void updateGameScreen(GameScreen* gameScreen, Game* game)
     snprintf(stonesBuf, sizeof(stonesBuf), "%d", game->stones);
     DrawText(stonesBuf, 40.0, 5.0, 30, BLACK);
 
-    // Shooter game time.
+    // Shooter game stuff.
     if (game->stones >= gameScreen->nextShootingStoneCount)
     {
-        ++game->stones;
-        enterShooterScreen(game);
-        gameScreen->nextShootingStoneCount *= 5.0;
+
+        // Show button to enter nap time.
+        if (updateTexturedButton(&gameScreen->napTimeButton))
+        {
+            ++game->stones;
+            enterShooterScreen(game);
+            gameScreen->nextShootingStoneCount *= 5.0;
+        }
     }
 
     char nextShooterBuf[60];
